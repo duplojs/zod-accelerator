@@ -1,0 +1,13 @@
+{
+    "LABEL": {
+        "name": "no publish"
+    },
+    "CHECKS": {
+      "prefixes": ["[publish]"]
+    },
+    "MESSAGES": {
+      "success": "All OK",
+      "failure": "Failing CI test",
+      "notice": ""
+    }
+}

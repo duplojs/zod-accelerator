@@ -1,0 +1,13 @@
+package: 
+  - "package.json"
+
+github:
+  - ".github/**/*"
+
+wip:
+  - "**/*"
+  
+md:
+  - "README.md"
+  - "CODEOFCONDUCT.md"
+  - "CONTRIBUTING.md"

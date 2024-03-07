@@ -1,0 +1,58 @@
+{
+  "name": "@duplojs/zod-accelerator",
+  "version": "0.0.0",
+  "author": "mathcovax",
+  "description": "",
+  "repository": "https://github.com/duplojs/duplojs-zod-accelerator",
+  "license": "ISC",
+  "keywords": [],
+  "types": "./types/scripts/index.ts",
+  "exports": {
+    "default": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "types"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rollup --config && npx tsc -p tsconfig.build.json",
+    "start": "node -r sucrase/register test.ts",
+    "test:bench": "node -r sucrase/register benchmark/string.bench.ts && node -r sucrase/register benchmark/object.bench.ts && node -r sucrase/register benchmark/array.bench.ts && node -r sucrase/register benchmark/union.bench.ts",
+    "test:coverage": "npx vitest --coverage",
+    "test:e2e": "node --require sucrase/register test",
+    "test:types": "tsc"
+  },
+  "dependencies": {
+    "@duplojs/duplojs": ">=1.1.11 <2.0.0",
+    "@duplojs/editor-tools": "^1.1.3",
+    "uglify-js": "^3.17.4",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@duplojs/worker-testing": "^0.2.6",
+    "@rollup/plugin-json": "^6.0.1",
+    "@sinclair/typebox": "^0.32.15",
+    "@types/node": "^18.15.11",
+    "@types/uglify-js": "^3.17.5",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitest/coverage-istanbul": "^1.3.1",
+    "autocannon": "^7.11.0",
+    "eslint": "^8.45.0",
+    "joi": "^17.12.2",
+    "myzod": "^1.11.0",
+    "rollup": "^3.26.2",
+    "rollup-plugin-dts": "^5.3.0",
+    "rollup-plugin-esbuild": "^5.0.0",
+    "sucrase": "^3.34.0",
+    "tinybench": "^2.6.0",
+    "typescript": "^5.0.2",
+    "vitest": "^1.3.1"
+  }
+}

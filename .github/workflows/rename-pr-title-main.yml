@@ -1,0 +1,57 @@
+name: rename pr title main
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: 
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    steps:
+      - name: title checker
+        uses: thehanimo/pr-title-checker@v1.3.5
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          configuration_path: ".github/check-pr-tilte-publish.json"
+        
+      - name: get develop branch
+        uses: actions/checkout@v3
+        with:
+          ref: develop
+          fetch-depth: 0 
+          
+      - name: set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: install dependencies
+        run: npm ci --prefix .github/getVersion/
+
+      - name: get version
+        run: |
+          OUTPUT=$(node .github/getVersion/main.js)
+          echo "::set-env name=VERSION::$OUTPUT"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: duplojs
+          GITHUB_REPO: duplojs-zod-accelerator
+          GITHUB_BRANCHE: develop
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      - name: install dependencies
+        run: npm ci --prefix .github/setTitle/
+
+      - name: set title
+        run: |
+          node .github/setTitle/main.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: duplojs
+          GITHUB_REPO: duplojs-zod-accelerator
+          GITHUB_PULL_NUMBER: ${{ github.event.pull_request.number }}

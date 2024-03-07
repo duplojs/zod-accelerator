@@ -1,0 +1,17 @@
+{
+
+	"editor.tabSize": 4,
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+
+	"files.autoSave": "off",
+
+	"[yaml]": {
+		"editor.tabSize": 2,
+		"editor.insertSpaces": true,
+	},
+    
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
+}

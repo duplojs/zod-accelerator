@@ -1,0 +1,21 @@
+name: check pr title to develop
+on:
+  pull_request_target:
+    branches:
+      - develop
+    types:
+      - opened
+      - edited
+      - synchronize
+      - labeled
+      - unlabeled
+
+jobs:
+  check-pr-title-to-develop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: thehanimo/pr-title-checker@v1.3.5
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          pass_on_octokit_error: false
+          configuration_path: ".github/check-pr-tilte-to-develop.json"

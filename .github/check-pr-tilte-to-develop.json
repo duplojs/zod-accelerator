@@ -1,0 +1,14 @@
+{
+    "LABEL": {
+        "name": "wrong title",
+        "color": "f00020"
+    },
+    "CHECKS": {
+      "prefixes": ["[fix]", "[feat]", "[break]", "[github]", "[md]"]
+    },
+    "MESSAGES": {
+      "success": "All OK",
+      "failure": "Failing CI test",
+      "notice": "Only prefix \"[fix]\", \"[feat]\", \"[break]\", \"[github]\" and \"[md]\" is accepted."
+    }
+}
