@@ -24,8 +24,8 @@
     "build": "rollup --config && npx tsc -p tsconfig.build.json",
     "start": "node -r sucrase/register test.ts",
     "test:bench": "node -r sucrase/register benchmark/string.bench.ts && node -r sucrase/register benchmark/object.bench.ts && node -r sucrase/register benchmark/array.bench.ts && node -r sucrase/register benchmark/union.bench.ts",
-    "test:coverage": "npx vitest --coverage",
-    "test:e2e": "node --require sucrase/register test",
+    "test:tu:coverage": "npx vitest --coverage",
+    "test:e2e": "node --require sucrase/register test/E2E",
     "test:types": "tsc"
   },
   "dependencies": {
