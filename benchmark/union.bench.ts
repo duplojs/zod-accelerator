@@ -2,7 +2,7 @@ import * as zod from "zod";
 import joi from "joi";
 import myzod from "myzod";
 import {Type as typebox} from "@sinclair/typebox";
-import {Value as typeboxValue} from "@sinclair/typebox/value";
+import {TypeCompiler as typeboxCompiler} from "@sinclair/typebox/compiler";
 import {ZodAccelerator} from "../scripts";
 import Bench from "tinybench";
 
@@ -21,13 +21,15 @@ const myzodSchema = myzod.union([
 		test: myzod.string()
 	}),
 ]);
-const typeboxSchema = typebox.Union([
-	typebox.Literal("123"),
-	typebox.Literal("456"),
-	typebox.Object({
-		test: typebox.String()
-	}),
-]);
+const typeboxSchema = typeboxCompiler.Compile(
+	typebox.Union([
+		typebox.Literal("123"),
+		typebox.Literal("456"),
+		typebox.Object({
+			test: typebox.String()
+		}),
+	])
+);
 const zodAccelerateSchema = ZodAccelerator.build(zodSchema);
 
 
@@ -41,10 +43,10 @@ bench
 	zodSchema.parse(data);
 })
 .add("joi", () => {
-	throw joiSchema;
+	throw new Error("joi union");
 })
 .add("@sinclair/typebox", () => {
-	typeboxValue.Check(typeboxSchema, data);
+	typeboxSchema.Check(data);
 })
 .add("myzod", () => {
 	myzodSchema.parse(data);

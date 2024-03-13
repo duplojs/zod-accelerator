@@ -35,7 +35,6 @@ export abstract class ZodAccelerator{
 		_zodSchema extends zod.ZodType
 	>(zodSchema: _zodSchema){
 		const accelerator = new ZodAcceleratorParser<_zodSchema>(
-			zodSchema, 
 			this.findAcceleratorContent(zodSchema).toFunction()
 		);
 

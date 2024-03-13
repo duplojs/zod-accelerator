@@ -37,9 +37,7 @@ export default workerTesting(
 				"content-type": "application/json"
 			},
 			body: {
-				data: {
-					test1: "eeeeee"
-				}
+				test1: "eeeeee"
 			},
 			response: {
 				code: 200,
@@ -63,7 +61,7 @@ export default workerTesting(
 			},
 			response: {
 				code: 400,
-				info: "TYPE_ERROR.body.data",
+				info: "TYPE_ERROR.body",
 			}
 		},
 	]
