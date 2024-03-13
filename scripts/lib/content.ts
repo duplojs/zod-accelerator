@@ -1,6 +1,5 @@
 import {AnyFunction} from "@duplojs/duplojs";
 import {ZodAcceleratorError} from "./error";
-import UglifyJS from "uglify-js";
 
 export type AcceleratorParams = {path: string | null, input: string, output: string};
 export type AcceleratorContentType = (string 
@@ -45,7 +44,7 @@ export class ZodAcceleratorContent{
                 
 				return /* js */`
                     if(${value.if ?? "true"}){
-                        new ZodAcceleratorError(\`$path\`, "${value.message ?? ""}");
+                        throw new ZodAcceleratorError(\`$path\`, "${value.message ?? ""}");
                     }
                 `;
 			})
@@ -79,18 +78,17 @@ export class ZodAcceleratorContent{
         
 		const functionContent = this.replacer(
 			[
-				`${isAsync ? "async " : ""}function zodAccelerator($input){`,
+				`(${isAsync ? "async " : ""}function ($input){`,
 				/* js */"const ZodAcceleratorError = this.ZodAcceleratorError;",
 				...this.content,
 				/* js */"return $input;",
-				"}"
+				"})"
 			]
 			.join("\n")
 		)
 		.replace(/\$path\.?/g, ".");
 
-		const {code: minifyFunctionContent} = UglifyJS.minify(functionContent);
-		const fnc: AnyFunction = eval(`(${minifyFunctionContent})`);
+		const fnc: AnyFunction = eval(functionContent);
 
 		return fnc.bind({
 			ZodAcceleratorError: ZodAcceleratorError,

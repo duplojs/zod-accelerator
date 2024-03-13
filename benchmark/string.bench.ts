@@ -2,14 +2,14 @@ import * as zod from "zod";
 import joi from "joi";
 import myzod from "myzod";
 import {Type as typebox} from "@sinclair/typebox";
-import {Value as typeboxValue} from "@sinclair/typebox/value";
+import {TypeCompiler as typeboxCompiler} from "@sinclair/typebox/compiler";
 import {ZodAccelerator} from "../scripts";
 import Bench from "tinybench";
 
 const zodSchema = zod.string();
 const joiSchema = joi.string();
 const myzodSchema = myzod.string();
-const typeboxSchema = typebox.String();
+const typeboxSchema = typeboxCompiler.Compile(typebox.String());
 const zodAccelerateSchema = ZodAccelerator.build(zodSchema);
 
 const bench = new Bench({time: 100});
@@ -23,7 +23,7 @@ bench
 	joiSchema.validate(data);
 })
 .add("@sinclair/typebox", () => {
-	typeboxValue.Check(typeboxSchema, data);
+	typeboxSchema.Check(data);
 })
 .add("myzod", () => {
 	myzodSchema.parse(data);

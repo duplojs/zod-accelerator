@@ -2,12 +2,12 @@ import * as zod from "zod";
 import joi from "joi";
 import myzod from "myzod";
 import {Type as typebox} from "@sinclair/typebox";
-import {Value as typeboxValue} from "@sinclair/typebox/value";
+import {TypeCompiler as typeboxCompiler} from "@sinclair/typebox/compiler";
 import {ZodAccelerator} from "../scripts";
 import Bench from "tinybench";
 
 const zodSchema = zod.object({
-	firstname: zod.string(),
+	firstname: zod.string().optional(),
 	lastname: zod.string(),
 	age: zod.number(),
 	email: zod.string(),
@@ -21,7 +21,7 @@ const zodSchema = zod.object({
 	}),
 });
 const joiSchema = joi.object({
-	firstname: joi.string(),
+	firstname: joi.string().optional(),
 	lastname: joi.string(),
 	age: joi.number(),
 	email: joi.string(),
@@ -35,7 +35,7 @@ const joiSchema = joi.object({
 	}),
 });
 const myzodSchema = myzod.object({
-	firstname: myzod.string(),
+	firstname: myzod.string().optional(),
 	lastname: myzod.string(),
 	age: myzod.number(),
 	email: myzod.string(),
@@ -49,23 +49,25 @@ const myzodSchema = myzod.object({
 	}),
 });
 enum typeboxGender {
-    boy,
-    girl
+    boy = "boy",
+    girl = "girl"
 }
-const typeboxSchema = typebox.Object({
-	firstname: typebox.String(),
-	lastname: typebox.String(),
-	age: typebox.Number(),
-	email: typebox.String(),
-	gender: typebox.Enum(typeboxGender),
-	connected: typebox.Boolean(),
-	createdAt: typebox.Date(),
-	addresse: typebox.Object({
-		postCode: typebox.String(),
-		city: typebox.String(),
-		number: typebox.Number()
-	}),
-});
+const typeboxSchema = typeboxCompiler.Compile(
+	typebox.Object({
+		firstname: typebox.Optional(typebox.String()),
+		lastname: typebox.String(),
+		age: typebox.Number(),
+		email: typebox.String(),
+		gender: typebox.Enum(typeboxGender),
+		connected: typebox.Boolean(),
+		createdAt: typebox.Date(),
+		addresse: typebox.Object({
+			postCode: typebox.String(),
+			city: typebox.String(),
+			number: typebox.Number()
+		}),
+	})
+);
 const zodAccelerateSchema = ZodAccelerator.build(zodSchema);
 
 const bench = new Bench({time: 100});
@@ -93,7 +95,7 @@ bench
 	joiSchema.validate(data);
 })
 .add("@sinclair/typebox", () => {
-	typeboxValue.Check(typeboxSchema, data);
+	typeboxSchema.Check(data);
 })
 .add("myzod", () => {
 	myzodSchema.parse(data);

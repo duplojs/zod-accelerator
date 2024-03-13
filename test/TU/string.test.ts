@@ -19,7 +19,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input is not a String.");
 		}
 	});
 
@@ -39,7 +39,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String has length less than 2.");
 		}
 	});
 
@@ -59,7 +59,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String has length more than 2.");
 		}
 	});
 
@@ -79,7 +79,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String has length not equal to 2.");
 		}
 	});
 
@@ -99,7 +99,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input string is not an Email.");
 		}
 	});
 
@@ -119,7 +119,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not an url.");
 		}
 	});
 
@@ -139,7 +139,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not an emoji.");
 		}
 	});
 
@@ -159,7 +159,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not an uuid.");
 		}
 	});
 
@@ -179,11 +179,11 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not an cuid.");
 		}
 	});
 
-	it("check cuid string", () => {
+	it("check cuid2 string", () => {
 		const schema = zod.string().cuid2();
 		const accelerateSchema = ZodAccelerator.build(schema);
 		let data = "tz4a98xxat96iws9zmbrgj3a";
@@ -199,7 +199,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not an cuid2.");
 		}
 	});
 
@@ -219,7 +219,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String not includes test.");
 		}
 	});
 
@@ -239,7 +239,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not an ulid.");
 		}
 	});
 
@@ -259,7 +259,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String not starts with test.");
 		}
 	});
 
@@ -279,7 +279,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String not ends with test.");
 		}
 	});
 
@@ -299,7 +299,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String not match with regex test.");
 		}
 	});
 
@@ -343,7 +343,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not a datetime.");
 		}
 	});
 
@@ -363,7 +363,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not a datetime.");
 		}
 	});
 
@@ -383,7 +383,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not a datetime.");
 		}
 	});
 
@@ -403,7 +403,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not a datetime.");
 		}
 	});
 
@@ -423,7 +423,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not a datetime.");
 		}
 	});
 
@@ -443,7 +443,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not a datetime.");
 		}
 	});
 
@@ -467,7 +467,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not an ipv4 or ipv6.");
 		}
 	});
 
@@ -487,7 +487,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not an ipv4.");
 		}
 	});
 
@@ -507,7 +507,7 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String is not an ipv6.");
 		}
 	});
 

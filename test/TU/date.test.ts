@@ -19,7 +19,7 @@ describe("date type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(schema.safeParse(data).success).toBe(false);
 			expect(err).instanceOf(ZodAcceleratorError);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input is invalide Date.");
 		}
 	});
 
@@ -44,7 +44,7 @@ describe("date type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(`. : Input Date is less than ${minDate.getTime()}.`);
 		}
 	});
 
@@ -69,7 +69,7 @@ describe("date type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(`. : Input Date is more than ${minDate.getTime()}.`);
 		}
 	});
 
@@ -89,7 +89,7 @@ describe("date type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(schema.safeParse(data).success).toBe(false);
 			expect(err).instanceOf(ZodAcceleratorError);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input is invalide Date.");
 		}
 	});
 });

@@ -10,21 +10,17 @@ export class ZodEnumAccelerator extends ZodAccelerator{
 	public makeAcceleratorContent(zodSchema: zod.ZodEnum<[string]>, zac: ZodAcceleratorContent){
 		const def = zodSchema._def;
 
-		zac.addContext({
-			enumValues: def.values
-		});
-
 		zac.addContent(
-			ZodEnumAccelerator.contentPart.enum()
+			ZodEnumAccelerator.contentPart.enum(def.values)
 		);
 
 		return zac;
 	}
 
 	static contentPart = {
-		enum: () => ({
-			if: /* js */"!$this.enumValues.includes($input)",
-			message: ""
+		enum: (values: string[]) => ({
+			if: values.map((value) => `"${value}" !== $input`).join(" && "),
+			message: `Input is not equal to ${values.join(" or ")}.`
 		})
 	};
 

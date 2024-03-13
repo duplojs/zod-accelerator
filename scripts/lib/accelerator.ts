@@ -28,14 +28,13 @@ export abstract class ZodAccelerator{
 			}
 		}
 
-		throw new Error("ZodType notfound");
+		throw new Error(`No accelerator found for type: ${zodSchema.constructor.name}`);
 	}
 
 	public static build<
 		_zodSchema extends zod.ZodType
 	>(zodSchema: _zodSchema){
 		const accelerator = new ZodAcceleratorParser<_zodSchema>(
-			zodSchema, 
 			this.findAcceleratorContent(zodSchema).toFunction()
 		);
 

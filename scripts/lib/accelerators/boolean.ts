@@ -25,7 +25,7 @@ export class ZodBooleanAccelerator extends ZodAccelerator{
         `,
 		typeof: () => ({
 			if: /* js */"(typeof $input !== \"boolean\")",
-			message: "",
+			message: "Input is not boolean.",
 		}),
 	};
 

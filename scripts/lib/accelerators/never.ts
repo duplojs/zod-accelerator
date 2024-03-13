@@ -17,7 +17,7 @@ export class ZodNeverAccelerator extends ZodAccelerator{
 	static contentPart = {
 		typeof: () => ({
 			if: /* js */"true",
-			message: ""
+			message: "Input is not never."
 		})
 	};
 

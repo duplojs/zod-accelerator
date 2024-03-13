@@ -19,7 +19,7 @@ describe("number type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input is not a Number.");
 		}
 	});
 
@@ -39,7 +39,7 @@ describe("number type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input Number is less than 1.");
 		}
 	});
 
@@ -59,7 +59,7 @@ describe("number type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input Number is more than 1.");
 		}
 	});
 
@@ -79,7 +79,7 @@ describe("number type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input Number is not multiple of 4.");
 		}
 	});
 
@@ -99,7 +99,7 @@ describe("number type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input is not Int.");
 		}
 	});
 
@@ -119,7 +119,7 @@ describe("number type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input Number is not finite.");
 		}
 	});
 
@@ -139,7 +139,7 @@ describe("number type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input is not a Number.");
 		}
 	});
 });

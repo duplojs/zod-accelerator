@@ -22,7 +22,7 @@ describe("intersection type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input String has length less than 10.");
 		}
 	});
 
@@ -65,17 +65,20 @@ describe("intersection type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".test3 : ");
+			expect(err.message).toBe(".test3 : Input is not Object.");
 		}
 	});
 
 	it("input error array and date", () => {
+		const date1 = new Date();
+		const date2 = new Date(date1);
+
 		const schema = zod.object({test1: zod.string().array().optional()})
 		.and(zod.object({test1: zod.string().array().transform((value) => ["test", ...value]).optional()}))
 		.and(zod.object({test2: zod.string().optional()}))
 		.and(zod.object({test2: zod.coerce.number().optional()}))
-		.and(zod.object({test6: zod.date().default(new Date())}))
-		.and(zod.object({test6: zod.date().default(new Date())}));
+		.and(zod.object({test6: zod.date().default(date1)}))
+		.and(zod.object({test6: zod.date().default(date2)}));
 
 		const accelerateSchema = ZodAccelerator.build(schema);
 		let data: any = {
@@ -89,7 +92,7 @@ describe("intersection type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Intersection results could not be merged.");
 		}
 
 		data = {
@@ -103,7 +106,7 @@ describe("intersection type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Intersection results could not be merged.");
 		}
 
 		data = {};

@@ -28,21 +28,46 @@ export class ZodObjectAccelerator extends ZodAccelerator{
 
 		Object.entries(shape).forEach(([key, zodSchema]) => {
 			const propsZac = ZodAccelerator.findAcceleratorContent(zodSchema);
-			zac.addContent(
-				[
-					propsZac, 
-					{
-						path: key,
-						input: `$input["${key}"]`,
-						output: `$output["${key}"]`,
-					}
-				],
-				/* js */`
-                    if($output["${key}"] === undefined){
-                        delete $output["${key}"];
-                    }
-                `
-			);
+			if(
+				zodSchema instanceof zod.ZodUndefined ||
+				zodSchema instanceof zod.ZodVoid ||
+				zodSchema instanceof zod.ZodUnknown ||
+				zodSchema instanceof zod.ZodAny ||
+				zodSchema instanceof zod.ZodOptional ||
+				zodSchema instanceof zod.ZodDefault ||
+				(
+					zodSchema instanceof zod.ZodLiteral &&
+					zodSchema._def.value === undefined 
+				)
+			){
+				zac.addContent(
+					[
+						propsZac, 
+						{
+							path: key,
+							input: `$input["${key}"]`,
+							output: "//",
+						}
+					],
+					/* js */`
+						if(${propsZac.replacer("$input")} != undefined){
+							$output["${key}"] = ${propsZac.replacer("$input")}
+						}
+					`
+				);
+			}
+			else {
+				zac.addContent(
+					[
+						propsZac, 
+						{
+							path: key,
+							input: `$input["${key}"]`,
+							output: `$output["${key}"]`,
+						}
+					]
+				);
+			}
 		});
 
 		zac.addContent(
@@ -62,12 +87,12 @@ export class ZodObjectAccelerator extends ZodAccelerator{
                 $input instanceof Array ||
                 $input instanceof Promise
             `,
-			message: "",
+			message: "Input is not Object.",
 		}),
 		strict: () => `
             for(let key in $input){
                 if(!$this.shape[key]){
-                    new ZodAcceleratorError(\`$path.\${key}\`, "");
+                    throw new ZodAcceleratorError(\`$path.\${key}\`, "Input Object has key to many.");
                 }
             }
         `,
