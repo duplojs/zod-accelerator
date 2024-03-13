@@ -18,14 +18,12 @@ duplo.declareRoute("GET", "/test/1")
 
 duplo.declareRoute("POST", "/test/2")
 .extract({
-	body: {
-		data: zod.object({
-			test1: zod.string()
-		})
-	}
+	body: zod.object({
+		test1: zod.string()
+	})
 })
 .handler(({pickup}, res) => {
-	res.code(200).info("s").send(pickup("data"));
+	res.code(200).info("s").send(pickup("body"));
 });
 
 duplo.launch(() => parentPort?.postMessage("ready"));

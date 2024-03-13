@@ -10,7 +10,6 @@ export class ZodAcceleratorParser<
     _output extends any = _zodSchema["_output"]
 >{
 	constructor(
-        public schema: _zodSchema,
         public parse: (input: unknown) => _output
 	){}
 

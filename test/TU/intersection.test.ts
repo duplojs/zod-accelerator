@@ -70,12 +70,15 @@ describe("intersection type", () => {
 	});
 
 	it("input error array and date", () => {
+		const date1 = new Date();
+		const date2 = new Date(date1);
+
 		const schema = zod.object({test1: zod.string().array().optional()})
 		.and(zod.object({test1: zod.string().array().transform((value) => ["test", ...value]).optional()}))
 		.and(zod.object({test2: zod.string().optional()}))
 		.and(zod.object({test2: zod.coerce.number().optional()}))
-		.and(zod.object({test6: zod.date().default(new Date())}))
-		.and(zod.object({test6: zod.date().default(new Date())}));
+		.and(zod.object({test6: zod.date().default(date1)}))
+		.and(zod.object({test6: zod.date().default(date2)}));
 
 		const accelerateSchema = ZodAccelerator.build(schema);
 		let data: any = {
