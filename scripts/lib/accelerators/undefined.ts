@@ -20,7 +20,7 @@ export class ZodUndefinedAccelerator extends ZodAccelerator{
 	static contentPart = {
 		typeof: () => ({
 			if: /* js */"(typeof $input !== \"undefined\")",
-			message: ""
+			message: "Input is not Undefined."
 		})
 	};
 

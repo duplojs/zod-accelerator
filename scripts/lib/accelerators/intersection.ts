@@ -73,7 +73,7 @@ export class ZodIntersectionAccelerator extends ZodAccelerator{
 		} 
 		else if(aType === zod.ZodParsedType.array && bType === zod.ZodParsedType.array){
 			if(a.length !== b.length){
-				new ZodAcceleratorError(path, "");
+				throw new ZodAcceleratorError(path, "Intersection results could not be merged.");
 			}
         
 			const newArray = [];
@@ -94,7 +94,7 @@ export class ZodIntersectionAccelerator extends ZodAccelerator{
 			return a;
 		} 
 		else {
-			new ZodAcceleratorError(path, "");
+			throw new ZodAcceleratorError(path, "Intersection results could not be merged.");
 		}
 	}
 

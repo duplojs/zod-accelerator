@@ -24,7 +24,7 @@ export class ZodLiteralAccelerator extends ZodAccelerator{
 	static contentPart = {
 		typeof: () => ({
 			if: /* js */"$input !== $this.value",
-			message: ""
+			message: "Input literal is wrong."
 		})
 	};
 

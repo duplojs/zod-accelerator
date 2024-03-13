@@ -40,7 +40,7 @@ export class ZodEffectAccelerator extends ZodAccelerator{
                 {
                     path: [], 
                     addIssue: (issue) => {
-                        new ZodAcceleratorError(\`$path\`, issue.message || "");
+                        throw new ZodAcceleratorError(\`$path\`, issue.message || "Effect transform issue without message.");
                     }
                 }
             )
@@ -51,7 +51,7 @@ export class ZodEffectAccelerator extends ZodAccelerator{
                 {
                     path: [], 
                     addIssue: (issue) => {
-                        new ZodAcceleratorError(\`$path\`, issue.message || "");
+                        throw new ZodAcceleratorError(\`$path\`, issue.message || "Effect refinement issue without message.");
                     }
                 }
             )
@@ -62,7 +62,7 @@ export class ZodEffectAccelerator extends ZodAccelerator{
                 {
                     path: [], 
                     addIssue: (issue) => {
-                        new ZodAcceleratorError(\`$path\`, issue.message || "");
+                        throw new ZodAcceleratorError(\`$path\`, issue.message || "Effect preprocess issue without message.");
                     }
                 }
             )

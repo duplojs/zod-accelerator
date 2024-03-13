@@ -18,7 +18,7 @@ export class ZodSymbolAccelerator extends ZodAccelerator{
 	static contentPart = {
 		typeof: () => ({
 			if: /* js */"(typeof $input !== \"symbol\")",
-			message: ""
+			message: "Input is not a Symbol."
 		})
 	};
 

@@ -18,7 +18,7 @@ export class ZodNullAccelerator extends ZodAccelerator{
 	static contentPart = {
 		typeof: () => ({
 			if: /* js */"$input !== null",
-			message: ""
+			message: "Input is not null."
 		})
 	};
 

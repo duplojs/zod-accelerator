@@ -1,5 +1,4 @@
 import * as zod from "zod";
-import {ZodNumberAccelerator} from "./number";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
@@ -24,28 +23,28 @@ export class ZodBigIntAccelerator extends ZodAccelerator{
 	}
 
 	static contentPart = {
-		coerce: () => /* js */`
+		coerce: () => `
             try {
                 $input = BigInt($input).valueOf();
             } catch {
-                new ZodAcceleratorError(\`$path\`, "");
+                throw new ZodAcceleratorError(\`$path\`, "Input is not BigInt.");
             }
         `,
 		typeof: () => ({
 			if: /* js */"(typeof $input !== \"bigint\")",
-			message: "",
+			message: "Input is not BigInt.",
 		}),
 		multipleOf: ({value}: {value: bigint}) => ({
 			if: /* js */`$input % ${value.toString()}n !== BigInt(0)`,
-			message: "",
+			message: `Input BigInt is not multiple of ${value}.`,
 		}),
 		min: ({value}: {value: number}) => ({
 			if: /* js */`$input <= ${value}`,
-			message: "",
+			message: `Input BigInt is less or equal than ${value}.`,
 		}),
 		max: ({value}: {value: number}) => ({
 			if: /* js */`$input >= ${value}`,
-			message: "",
+			message: `Input BigInt is more or equal than ${value}.`,
 		}),
 	};
 

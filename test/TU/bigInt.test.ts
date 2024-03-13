@@ -19,7 +19,7 @@ describe("bigInt type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input is not BigInt.");
 		}
 	});
 
@@ -39,7 +39,7 @@ describe("bigInt type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input BigInt is less or equal than 1.");
 		}
 	});
 
@@ -59,7 +59,7 @@ describe("bigInt type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input BigInt is more or equal than 4.");
 		}
 	});
 
@@ -79,7 +79,7 @@ describe("bigInt type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input BigInt is not multiple of 4.");
 		}
 	});
 
@@ -99,7 +99,7 @@ describe("bigInt type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			// expect(schema.safeParse(data).success).toBe(false)
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input is not BigInt.");
 		}
 	});
 });

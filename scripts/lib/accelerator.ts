@@ -28,7 +28,7 @@ export abstract class ZodAccelerator{
 			}
 		}
 
-		throw new Error("ZodType notfound");
+		throw new Error(`No accelerator found for type: ${zodSchema.constructor.name}`);
 	}
 
 	public static build<

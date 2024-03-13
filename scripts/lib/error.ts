@@ -4,7 +4,5 @@ export class ZodAcceleratorError extends Error{
 		message: string
 	){
 		super(`${path || "."} : ${message}`);
-
-		throw this;
 	}
 }

@@ -24,7 +24,7 @@ describe("record type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".[Record Value \"test1\"] : ");
+			expect(err.message).toBe(".[Record Value \"test1\"] : Input is not a String.");
 		}
 	});
 
@@ -49,7 +49,7 @@ describe("record type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".[Record Key \"test1\"] : ");
+			expect(err.message).toBe(".[Record Key \"test1\"] : Input is not a Number.");
 		}
 	});
 });

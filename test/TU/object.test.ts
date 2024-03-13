@@ -32,7 +32,7 @@ describe("object type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".test1 : ");
+			expect(err.message).toBe(".test1 : Input is not a String.");
 		}
 
 		data = 11;
@@ -44,7 +44,7 @@ describe("object type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input is not Object.");
 		}
 	});
 
@@ -73,7 +73,7 @@ describe("object type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".test2 : ");
+			expect(err.message).toBe(".test2 : Input Object has key to many.");
 		}
 	});
 
@@ -129,7 +129,7 @@ describe("object type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".ddd.test2 : ");
+			expect(err.message).toBe(".ddd.test2 : Input is not a Number.");
 		}
 
 		data = {
@@ -147,7 +147,7 @@ describe("object type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".ddd.test3 : ");
+			expect(err.message).toBe(".ddd.test3 : Input Object has key to many.");
 		}
 	});
 });

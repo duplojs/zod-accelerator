@@ -23,24 +23,24 @@ export class ZodDateAccelerator extends ZodAccelerator{
 	}
 
 	static contentPart = {
-		coerce: () => /* js */`
+		coerce: () => `
             $input = new Date($input);
 
             if(isNaN($input.getTime())){
-                new ZodAcceleratorError(\`$path\`, "");
+                throw new ZodAcceleratorError(\`$path\`, "Input is invalide Date.");
             }
         `,
 		typeof: () => ({
 			if: /* js */"!($input instanceof Date)",
-			message: "",
+			message: "Input is invalide Date.",
 		}),
 		min: ({value}: {value: number}) => ({
 			if: /* js */`$input.getTime() < ${value}`,
-			message: "",
+			message: `Input Date is less than ${value}.`,
 		}),
 		max: ({value}: {value: number}) => ({
 			if: /* js */`$input.getTime() > ${value}`,
-			message: "",
+			message: `Input Date is more than ${value}.`,
 		}),
 	};
 
