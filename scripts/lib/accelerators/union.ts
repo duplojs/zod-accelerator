@@ -53,7 +53,7 @@ export class ZodUnionAccelerator extends ZodAccelerator{
 	static contentPart = {
 		checkOutput: () => ({
 			if: /* js */"$output === this.duploj$EMPTY",
-			message: ""
+			message: "Input has no correspondence in union."
 		})
 	};
 

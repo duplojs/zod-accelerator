@@ -27,33 +27,33 @@ export class ZodNumberAccelerator extends ZodAccelerator{
             $input = new Number($input).valueOf();
 
             if(Number.isNaN($input)){
-                new ZodAcceleratorError(\`$path\`, "");
+                throw new ZodAcceleratorError(\`$path\`, "Input is not a Number.");
             }
         `,
 		typeof: () => ({
-			if: /* js */"(typeof $input !== \"number\")",
-			message: "",
+			if: /* js */"(typeof $input !== \"number\" || Number.isNaN($input))",
+			message: "Input is not a Number.",
 		}),
 		min: ({value, inclusive}: {value: number, inclusive: boolean}) => ({
 			if: /* js */`$input <${!inclusive ? "=" : ""} ${value}`,
-			message: "",
+			message: `Input Number is less ${!inclusive ? "or equal " : ""}than ${value}.`,
 		}),
 		max: ({value, inclusive}: {value: number, inclusive: boolean}) => ({
 			if: /* js */`$input >${!inclusive ? "=" : ""} ${value}`,
-			message: "",
+			message: `Input Number is more ${!inclusive ? "or equal " : ""}than ${value}.`,
 		}),
 		int: () => ({
 			if: /* js */"!Number.isInteger($input)",
-			message: "",
+			message: "Input is not Int.",
 		}),
 		multipleOf: ({value}: {value: number}) => ({
 			if: /* js */`this.duploj$floatSafeRemainder($input, ${value}) !== 0`,
-			message: "",
+			message: `Input Number is not multiple of ${value}.`,
 			ctx: {duploj$floatSafeRemainder: ZodNumberAccelerator.floatSafeRemainder}
 		}),
 		finite: () => ({
 			if: /* js */"!Number.isFinite($input)",
-			message: "",
+			message: "Input Number is not finite.",
 		}),
 	};
 

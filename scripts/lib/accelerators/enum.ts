@@ -20,7 +20,7 @@ export class ZodEnumAccelerator extends ZodAccelerator{
 	static contentPart = {
 		enum: (values: string[]) => ({
 			if: values.map((value) => `"${value}" !== $input`).join(" && "),
-			message: ""
+			message: `Input is not equal to ${values.join(" or ")}.`
 		})
 	};
 

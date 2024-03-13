@@ -18,7 +18,7 @@ export class ZodNanAccelerator extends ZodAccelerator{
 	static contentPart = {
 		typeof: () => ({
 			if: /* js */"!isNaN($input)",
-			message: ""
+			message: "Input is not NaN."
 		})
 	};
 

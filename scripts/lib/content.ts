@@ -44,7 +44,7 @@ export class ZodAcceleratorContent{
                 
 				return /* js */`
                     if(${value.if ?? "true"}){
-                        new ZodAcceleratorError(\`$path\`, "${value.message ?? ""}");
+                        throw new ZodAcceleratorError(\`$path\`, "${value.message ?? ""}");
                     }
                 `;
 			})

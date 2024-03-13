@@ -19,7 +19,7 @@ describe("array type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".[Array 1] : ");
+			expect(err.message).toBe(".[Array 1] : Input is not a String.");
 		}
 	});
 
@@ -39,7 +39,7 @@ describe("array type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".[Array 1].test : ");
+			expect(err.message).toBe(".[Array 1].test : Input is not a String.");
 		}
 	});
 
@@ -59,7 +59,7 @@ describe("array type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input Array has length not equal to 2.");
 		}
 	});
 
@@ -79,7 +79,7 @@ describe("array type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input Array has length less than 3.");
 		}
 	});
 
@@ -101,7 +101,7 @@ describe("array type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ");
+			expect(err.message).toBe(". : Input Array has length more than 3.");
 		}
 	});
 });

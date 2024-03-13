@@ -87,12 +87,12 @@ export class ZodObjectAccelerator extends ZodAccelerator{
                 $input instanceof Array ||
                 $input instanceof Promise
             `,
-			message: "",
+			message: "Input is not Object.",
 		}),
 		strict: () => `
             for(let key in $input){
                 if(!$this.shape[key]){
-                    new ZodAcceleratorError(\`$path.\${key}\`, "");
+                    throw new ZodAcceleratorError(\`$path.\${key}\`, "Input Object has key to many.");
                 }
             }
         `,

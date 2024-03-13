@@ -36,19 +36,19 @@ export class ZodArrayAccelerator extends ZodAccelerator{
 	static contentPart = {
 		typeof: () => ({
 			if: /* js */"!($input instanceof Array)",
-			message: "",
+			message: "Input is not Array.",
 		}),
 		min: ({value}: {value: number}) => ({
 			if: /* js */`$input.length < ${value}`,
-			message: "",
+			message: `Input Array has length less than ${value}.`,
 		}),
 		max: ({value}: {value: number}) => ({
 			if: /* js */`$input.length > ${value}`,
-			message: "",
+			message: `Input Array has length more than ${value}.`,
 		}),
 		exact: ({value}: {value: number}) => ({
 			if: /* js */`$input.length !== ${value}`,
-			message: "",
+			message: `Input Array has length not equal to ${value}.`,
 		}),
 	};
 
