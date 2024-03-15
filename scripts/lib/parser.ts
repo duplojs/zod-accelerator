@@ -1,5 +1,6 @@
 import * as zod from "zod";
 import {ZodAcceleratorError} from "./error";
+import {PromiseOrNot} from "@duplojs/duplojs";
 
 export type AcceleratorSafeParseError<_output extends any> = 
     { success: true, data: _output } 
@@ -7,43 +8,50 @@ export type AcceleratorSafeParseError<_output extends any> =
 
 export class ZodAcceleratorParser<
     _zodSchema extends zod.ZodType,
-    _output extends any = _zodSchema["_output"]
+    _output extends _zodSchema["_output"] = _zodSchema["_output"]
 >{
 	constructor(
-        public parse: (input: unknown) => _output
+        private buidledParse: (input: unknown) => PromiseOrNot<AcceleratorSafeParseError<_output>>
 	){}
-
-	parseAsync(input: unknown){
-		return this.parse(input) as Promise<_output>;
-	}
 
 	safeParse(input: unknown): AcceleratorSafeParseError<_output>
 	{
-		try {
-			return {
-				success: true,
-				data: this.parse(input),
-			};
-		} catch (error: any){
+		const result = this.buidledParse(input);
+
+		if(result instanceof Promise){
 			return {
 				success: false,
-				error
+				error: new ZodAcceleratorError(".", "Parse function is async.")
 			};
 		}
+
+		return result;
 	}
 
 	async safeParseAsync(input: unknown): Promise<AcceleratorSafeParseError<_output>>
 	{
-		try {
-			return {
-				success: true,
-				data: await this.parseAsync(input),
-			};
-		} catch (error: any){
-			return {
-				success: false,
-				error
-			};
+		return await this.buidledParse(input); 
+	}
+
+	parse(input: unknown): _output
+	{
+		const result = this.safeParse(input);
+		if(result.success){
+			return result.data;
+		}
+		else {
+			throw result.error;
+		}
+	}
+
+	async parseAsync(input: unknown): Promise<_output>
+	{
+		const result = await this.buidledParse(input);
+		if(result.success){
+			return result.data;
+		}
+		else {
+			throw result.error;
 		}
 	}
 }

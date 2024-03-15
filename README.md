@@ -15,35 +15,35 @@ import * as zod from "zod";
 import {ZodAccelerator} from "@duplojs/zod-accelerator";
 
 const zodSchema = zod.object({
-	firstname: zod.string(),
-	lastname: zod.string(),
-	age: zod.number(),
-	email: zod.string(),
-	gender: zod.enum(["boy", "girl"]),
-	connected: zod.boolean(),
-	createdAt: zod.date(),
-	addresse: zod.object({
-		postCode: zod.string(),
-		city: zod.string(),
-		number: zod.number()
-	}),
+    firstname: zod.string(),
+    lastname: zod.string(),
+    age: zod.number(),
+    email: zod.string(),
+    gender: zod.enum(["boy", "girl"]),
+    connected: zod.boolean(),
+    createdAt: zod.date(),
+    addresse: zod.object({
+        postCode: zod.string(),
+        city: zod.string(),
+        number: zod.number()
+    }),
 }).array();
 
 const zodAccelerateSchema = ZodAccelerator.build(zodSchema);
 
 const inputData = Array.from({length: 10}).fill({
-	firstname: "  Mike ",
-	lastname: "ee",
-	age: 21,
-	email: "test@gmail.com",
-	gender: "girl",
-	connected: true,
-	createdAt: new Date(),
-	addresse: {
-		postCode: "22778",
-		city: "Paris",
-		number: 67
-	},
+    firstname: "  Mike ",
+    lastname: "ee",
+    age: 21,
+    email: "test@gmail.com",
+    gender: "girl",
+    connected: true,
+    createdAt: new Date(),
+    addresse: {
+        postCode: "22778",
+        city: "Paris",
+        number: 67
+    },
 });
 
 const outputData = zodAccelerateSchema.parse(inputData);

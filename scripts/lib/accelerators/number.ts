@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodNumberAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodNumber;
@@ -27,7 +28,7 @@ export class ZodNumberAccelerator extends ZodAccelerator{
             $input = new Number($input).valueOf();
 
             if(Number.isNaN($input)){
-                throw new ZodAcceleratorError(\`$path\`, "Input is not a Number.");
+                return {success: false, error: new ZodAcceleratorError(\`$path\`, "Input is not a Number.")};
             }
         `,
 		typeof: () => ({
@@ -64,9 +65,5 @@ export class ZodNumberAccelerator extends ZodAccelerator{
 		const valInt = parseInt(val.toFixed(decCount).replace(".", ""));
 		const stepInt = parseInt(step.toFixed(decCount).replace(".", ""));
 		return (valInt % stepInt) / Math.pow(10, decCount);
-	}
-
-	static {
-		new ZodNumberAccelerator();
 	}
 }

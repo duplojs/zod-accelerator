@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodSymbolAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodSymbol;
@@ -21,8 +22,4 @@ export class ZodSymbolAccelerator extends ZodAccelerator{
 			message: "Input is not a Symbol."
 		})
 	};
-
-	static {
-		new ZodSymbolAccelerator();
-	}
 }

@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodUndefinedAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodUndefined;
@@ -23,8 +24,4 @@ export class ZodUndefinedAccelerator extends ZodAccelerator{
 			message: "Input is not Undefined."
 		})
 	};
-
-	static {
-		new ZodUndefinedAccelerator();
-	}
 }

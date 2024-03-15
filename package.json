@@ -5,7 +5,13 @@
   "description": "",
   "repository": "https://github.com/duplojs/duplojs-zod-accelerator",
   "license": "ISC",
-  "keywords": [],
+  "keywords": [
+    "typescript",
+    "json-schema",
+    "parser",
+    "validate",
+    "typecheck"
+  ],
   "types": "./types/scripts/index.ts",
   "exports": {
     "default": {
@@ -22,8 +28,7 @@
   },
   "scripts": {
     "build": "rollup --config && npx tsc -p tsconfig.build.json",
-    "start": "node -r sucrase/register test.ts",
-    "test:bench": "node -r sucrase/register benchmark/string.bench.ts && node -r sucrase/register benchmark/object.bench.ts && node -r sucrase/register benchmark/array.bench.ts && node -r sucrase/register benchmark/union.bench.ts",
+    "test:bench": "tsx benchmark/string.bench.ts && tsx benchmark/object.bench.ts && tsx benchmark/array.bench.ts && tsx benchmark/union.bench.ts",
     "test:tu:coverage": "npx vitest --coverage",
     "test:e2e": "node --require sucrase/register test/E2E",
     "test:types": "tsc"
@@ -34,7 +39,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@duplojs/worker-testing": "^0.2.6",
+    "@duplojs/worker-testing": "^0.3.6",
     "@rollup/plugin-json": "^6.0.1",
     "@sinclair/typebox": "^0.32.15",
     "@types/node": "^18.15.11",
@@ -51,6 +56,7 @@
     "rollup-plugin-esbuild": "^5.0.0",
     "sucrase": "^3.34.0",
     "tinybench": "^2.6.0",
+    "tsx": "^4.7.1",
     "typescript": "^5.0.2",
     "vitest": "^1.3.1"
   }

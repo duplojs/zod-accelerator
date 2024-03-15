@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodArrayAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodArray;
@@ -51,8 +52,4 @@ export class ZodArrayAccelerator extends ZodAccelerator{
 			message: `Input Array has length not equal to ${value}.`,
 		}),
 	};
-
-	static {
-		new ZodArrayAccelerator();
-	}
 }

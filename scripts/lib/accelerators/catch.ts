@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodCatchAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodCatch;
@@ -28,7 +29,7 @@ export class ZodCatchAccelerator extends ZodAccelerator{
 			innerTypeZacContent
 			.split("\n")
 			.map(
-				line => line.includes("new ZodAcceleratorError") ? "break $id_catch;" : line
+				line => line.includes("return") ? "break $id_catch;" : line
 			)
 			.join("\n"),
 			"}",
@@ -48,8 +49,4 @@ export class ZodCatchAccelerator extends ZodAccelerator{
 	};
 
 	static EMPTY = Symbol("empty");
-
-	static {
-		new ZodCatchAccelerator();
-	}
 }

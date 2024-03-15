@@ -78,11 +78,27 @@ describe("intersection type", () => {
 		.and(zod.object({test2: zod.string().optional()}))
 		.and(zod.object({test2: zod.coerce.number().optional()}))
 		.and(zod.object({test6: zod.date().default(date1)}))
-		.and(zod.object({test6: zod.date().default(date2)}));
+		.and(zod.object({test6: zod.date().default(date2)}))
+		.and(zod.object({test7: zod.coerce.number().array().optional()}))
+		.and(zod.object({test7: zod.string().array().optional()}));
 
 		const accelerateSchema = ZodAccelerator.build(schema);
 		let data: any = {
 			test1: ["eee"],
+		};
+
+		try {
+			accelerateSchema.parse(data);
+			throw null;
+		} catch (error: any){
+			const err: ZodAcceleratorError = error;
+			expect(err).instanceOf(ZodAcceleratorError);
+			expect(schema.safeParse(data).success).toBe(false);
+			expect(err.message).toBe(". : Intersection results could not be merged.");
+		}
+
+		data = {
+			test7: ["12"],
 		};
 
 		try {

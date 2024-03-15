@@ -7,6 +7,7 @@ describe("effects type", () => {
 		const schema = zod.string().transform((value, ctx) => {
 			if(value === ""){
 				ctx.addIssue({message: "super message", code: "custom"});
+				return zod.NEVER;
 			}
 
 			return value.length;
@@ -53,6 +54,7 @@ describe("effects type", () => {
 		const schema = zod.string().superRefine((value, ctx) => {
 			if(value === ""){
 				ctx.addIssue({message: "super message", code: "custom"});
+				return zod.NEVER;
 			}
 		});
 		const accelerateSchema = ZodAccelerator.build(schema);
@@ -77,6 +79,7 @@ describe("effects type", () => {
 		const schema = zod.preprocess((value, ctx) => {
 			if(value === ""){
 				ctx.addIssue({message: "super message", code: "custom"});
+				return zod.NEVER;
 			}
 
 			return new String(value).valueOf();
