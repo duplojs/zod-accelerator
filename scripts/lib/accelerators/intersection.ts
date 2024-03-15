@@ -2,7 +2,9 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 import {ZodAcceleratorError} from "../error";
+import {AcceleratorSafeParseError} from "../parser";
 
+@ZodAccelerator.autoInstance
 export class ZodIntersectionAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodIntersection;
@@ -35,29 +37,31 @@ export class ZodIntersectionAccelerator extends ZodAccelerator{
 			);
 		});
 
-		zac.addContent(
-			/* js */`
-                $input = this.duploj$mergeValues($id_left_output, $id_right_output)
-            `
-		);
+		zac.addContent(ZodIntersectionAccelerator.contentPart.mergeValues());
         
 		return zac;
 	}
 
 	static contentPart = {
-       
+		mergeValues: () => /* js */`
+			let $id_resultMergeValues = this.duploj$mergeValues($id_left_output, $id_right_output);
+			if(!$id_resultMergeValues.success){
+				return $id_resultMergeValues;
+			}
+			$input = $id_resultMergeValues.data;
+	   `
 	};
 
 	static mergeValues(
 		a: any,
 		b: any,
 		path: string
-	): any{
+	): AcceleratorSafeParseError<any>{
 		const aType = zod.getParsedType(a);
 		const bType = zod.getParsedType(b);
         
 		if(a === b){
-			return a;
+			return {success: true, data: a};
 		} 
 		else if(aType === zod.ZodParsedType.object && bType === zod.ZodParsedType.object){
 			const bKeys = Object.keys(b);
@@ -65,40 +69,42 @@ export class ZodIntersectionAccelerator extends ZodAccelerator{
         
 			const newObj: any = {...a, ...b};
 			for(const key of sharedKeys){
-				const sharedValue = ZodIntersectionAccelerator.mergeValues(a[key], b[key], path);
-				newObj[key] = sharedValue;
+				const result = ZodIntersectionAccelerator.mergeValues(a[key], b[key], path);
+				if(!result.success){
+					return result;
+				}
+				newObj[key] = result.data;
 			}
       
-			return newObj;
+			return {success: true, data: newObj};
 		} 
 		else if(aType === zod.ZodParsedType.array && bType === zod.ZodParsedType.array){
 			if(a.length !== b.length){
-				throw new ZodAcceleratorError(path, "Intersection results could not be merged.");
+				return {success: false, error: new ZodAcceleratorError(path, "Intersection results could not be merged.")};
 			}
         
 			const newArray = [];
 			for(let index = 0; index < a.length; index++){
 				const itemA = a[index];
 				const itemB = b[index];
-				const sharedValue = ZodIntersectionAccelerator.mergeValues(itemA, itemB, path);
-				newArray.push(sharedValue);
+				const result = ZodIntersectionAccelerator.mergeValues(itemA, itemB, path);
+				if(!result.success){
+					return result;
+				}
+				newArray.push(result.data);
 			}
-        
-			return newArray;
+
+			return {success: true, data: newArray};
 		} 
 		else if(
 			aType === zod.ZodParsedType.date &&
             bType === zod.ZodParsedType.date &&
             +a === +b
 		){
-			return a;
+			return {success: true, data: a};
 		} 
 		else {
-			throw new ZodAcceleratorError(path, "Intersection results could not be merged.");
+			return {success: false, error: new ZodAcceleratorError(path, "Intersection results could not be merged.")};
 		}
-	}
-
-	static {
-		new ZodIntersectionAccelerator();
 	}
 }

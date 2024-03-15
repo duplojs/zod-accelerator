@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodStringAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodString;
@@ -53,7 +54,7 @@ export class ZodStringAccelerator extends ZodAccelerator{
             try {
                 new URL($input);
             } catch (error) {
-                throw new ZodAcceleratorError(\`$path\`, "Input String is not an url.");
+                return {success: false, error: new ZodAcceleratorError(\`$path\`, "Input String is not an url.")};
             }
         `,
 		emoji: () => ({
@@ -170,8 +171,4 @@ export class ZodStringAccelerator extends ZodAccelerator{
 			}
 		},
 	};
-
-	static {
-		new ZodStringAccelerator();
-	}
 }

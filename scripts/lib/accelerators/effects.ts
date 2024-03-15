@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodEffectAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodEffects;
@@ -14,6 +15,7 @@ export class ZodEffectAccelerator extends ZodAccelerator{
 			transform: def.effect.type === "transform" ? def.effect.transform : undefined,
 			refinement: def.effect.type === "refinement" ? def.effect.refinement : undefined,
 			preprocess: def.effect.type === "preprocess" ? def.effect.transform : undefined,
+			duploj$Never: zod.NEVER,
 		});
 
 		zac.addContent(
@@ -35,41 +37,53 @@ export class ZodEffectAccelerator extends ZodAccelerator{
 
 	static contentPart = {
 		transform: (isAsync: boolean) => `
+			let $id_issue;
             $input = ${isAsync ? "await " : ""}$this.transform(
                 $input, 
                 {
                     path: [], 
                     addIssue: (issue) => {
-                        throw new ZodAcceleratorError(\`$path\`, issue.message || "Effect transform issue without message.");
+                        $id_issue = {success: false, error: new ZodAcceleratorError(\`$path\`, issue.message || "Effect transform issue without message.")};
                     }
                 }
             )
+
+			if($id_issue || $input === this.duploj$Never){
+				return $id_issue || {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
+			}
         `,
 		refinement: (isAsync: boolean) => `
+			let $id_issue;
             ${isAsync ? "await " : ""}$this.refinement(
                 $input, 
                 {
                     path: [], 
                     addIssue: (issue) => {
-                        throw new ZodAcceleratorError(\`$path\`, issue.message || "Effect refinement issue without message.");
+                        $id_issue = {success: false, error: new ZodAcceleratorError(\`$path\`, issue.message || "Effect refinement issue without message.")};
                     }
+
                 }
             )
+
+			if($id_issue || $input === this.duploj$Never){
+				return $id_issue || {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
+			}
         `,
 		preprocess: (isAsync: boolean) => `
+			let $id_issue;
             $input = ${isAsync ? "await " : ""}$this.preprocess(
                 $input, 
                 {
                     path: [], 
                     addIssue: (issue) => {
-                        throw new ZodAcceleratorError(\`$path\`, issue.message || "Effect preprocess issue without message.");
+                        $id_issue = {success: false, error: new ZodAcceleratorError(\`$path\`, issue.message || "Effect preprocess issue without message.")};
                     }
                 }
             )
+
+			if($id_issue || $input === this.duploj$Never){
+				return $id_issue || {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
+			}
         `,
 	};
-
-	static {
-		new ZodEffectAccelerator();
-	}
 }

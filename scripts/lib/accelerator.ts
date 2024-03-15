@@ -14,10 +14,6 @@ declare module "zod" {
 export abstract class ZodAccelerator{
 	protected static accelerators: ZodAccelerator[] = [];
 
-	constructor(){
-		ZodAccelerator.accelerators.push(this);
-	}
-
 	public abstract get support(): any;
 	public abstract makeAcceleratorContent(zodSchema: zod.ZodType, zac: ZodAcceleratorContent): ZodAcceleratorContent
 
@@ -41,6 +37,10 @@ export abstract class ZodAccelerator{
 		zodSchema.accelerator = accelerator;
 
 		return accelerator;
+	}
+
+	public static autoInstance(zodAccelerator: { new(...args: any[]): ZodAccelerator }){
+		ZodAccelerator.accelerators.push(new zodAccelerator());
 	}
 
 	public static duplojs(

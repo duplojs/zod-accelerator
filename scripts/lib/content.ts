@@ -42,9 +42,9 @@ export class ZodAcceleratorContent{
 				if(value.ctx) this.addContext(value.ctx);
 				if(value.content) return value.content;
                 
-				return /* js */`
+				return `
                     if(${value.if ?? "true"}){
-                        throw new ZodAcceleratorError(\`$path\`, "${value.message ?? ""}");
+                        return {success: false, error: new ZodAcceleratorError(\`$path\`, "${value.message ?? ""}")};
                     }
                 `;
 			})
@@ -81,7 +81,7 @@ export class ZodAcceleratorContent{
 				`(${isAsync ? "async " : ""}function ($input){`,
 				/* js */"const ZodAcceleratorError = this.ZodAcceleratorError;",
 				...this.content,
-				/* js */"return $input;",
+				/* js */"return {success: true, data: $input};",
 				"})"
 			]
 			.join("\n")

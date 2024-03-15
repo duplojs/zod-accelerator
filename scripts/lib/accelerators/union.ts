@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodUnionAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodUnion;
@@ -33,7 +34,7 @@ export class ZodUnionAccelerator extends ZodAccelerator{
 				childZacContent
 				.split("\n")
 				.map(
-					line => line.includes("new ZodAcceleratorError") ? `break $id_union_child_${index};` : line
+					line => line.includes("return") ? `break $id_union_child_${index};` : line
 				)
 				.join("\n"),
 				"break $id_union;",
@@ -58,8 +59,4 @@ export class ZodUnionAccelerator extends ZodAccelerator{
 	};
 
 	static EMPTY = Symbol("empty");
-
-	static {
-		new ZodUnionAccelerator();
-	}
 }
