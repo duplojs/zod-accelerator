@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodBooleanAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodBoolean;
@@ -28,8 +29,4 @@ export class ZodBooleanAccelerator extends ZodAccelerator{
 			message: "Input is not boolean.",
 		}),
 	};
-
-	static {
-		new ZodBooleanAccelerator();
-	}
 }

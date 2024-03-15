@@ -3,6 +3,7 @@ import {ZodAccelerator} from "../accelerator";
 import {ZodObjectAccelerator} from "./object";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodRecordAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodRecord;
@@ -50,8 +51,4 @@ export class ZodRecordAccelerator extends ZodAccelerator{
 	static contentPart = {
 		...ZodObjectAccelerator.contentPart
 	};
-
-	static {
-		new ZodRecordAccelerator();
-	}
 }

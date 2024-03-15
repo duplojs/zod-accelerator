@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodObjectAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodObject;
@@ -92,7 +93,7 @@ export class ZodObjectAccelerator extends ZodAccelerator{
 		strict: () => `
             for(let key in $input){
                 if(!$this.shape[key]){
-                    throw new ZodAcceleratorError(\`$path.\${key}\`, "Input Object has key to many.");
+                    return {success: false, error: new ZodAcceleratorError(\`$path.\${key}\`, "Input Object has key to many.")};
                 }
             }
         `,
@@ -104,8 +105,4 @@ export class ZodObjectAccelerator extends ZodAccelerator{
             }
         `,
 	};
-
-	static {
-		new ZodObjectAccelerator();
-	}
 }

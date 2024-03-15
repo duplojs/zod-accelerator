@@ -3,6 +3,7 @@ import {ZodAccelerator} from "../accelerator";
 import {ZodArrayAccelerator} from "./array";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodTupleAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodTuple;
@@ -57,8 +58,4 @@ export class ZodTupleAccelerator extends ZodAccelerator{
 	static contentPart = {
 		...ZodArrayAccelerator.contentPart
 	};
-
-	static {
-		new ZodTupleAccelerator();
-	}
 }

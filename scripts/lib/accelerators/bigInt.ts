@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodBigIntAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodBigInt;
@@ -27,7 +28,7 @@ export class ZodBigIntAccelerator extends ZodAccelerator{
             try {
                 $input = BigInt($input).valueOf();
             } catch {
-                throw new ZodAcceleratorError(\`$path\`, "Input is not BigInt.");
+                return {success: false, error: new ZodAcceleratorError(\`$path\`, "Input is not BigInt.")};
             }
         `,
 		typeof: () => ({
@@ -47,8 +48,4 @@ export class ZodBigIntAccelerator extends ZodAccelerator{
 			message: `Input BigInt is more or equal than ${value}.`,
 		}),
 	};
-
-	static {
-		new ZodBigIntAccelerator();
-	}
 }

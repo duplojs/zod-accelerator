@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodEnumAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodEnum;
@@ -23,8 +24,4 @@ export class ZodEnumAccelerator extends ZodAccelerator{
 			message: `Input is not equal to ${values.join(" or ")}.`
 		})
 	};
-
-	static {
-		new ZodEnumAccelerator();
-	}
 }

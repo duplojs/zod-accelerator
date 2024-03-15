@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodDateAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodDate;
@@ -27,7 +28,7 @@ export class ZodDateAccelerator extends ZodAccelerator{
             $input = new Date($input);
 
             if(isNaN($input.getTime())){
-                throw new ZodAcceleratorError(\`$path\`, "Input is invalide Date.");
+                return {success: false, error: new ZodAcceleratorError(\`$path\`, "Input is invalide Date.")};
             }
         `,
 		typeof: () => ({
@@ -43,8 +44,4 @@ export class ZodDateAccelerator extends ZodAccelerator{
 			message: `Input Date is more than ${value}.`,
 		}),
 	};
-
-	static {
-		new ZodDateAccelerator();
-	}
 }

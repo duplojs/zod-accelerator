@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodLiteralAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodLiteral;
@@ -27,8 +28,4 @@ export class ZodLiteralAccelerator extends ZodAccelerator{
 			message: "Input literal is wrong."
 		})
 	};
-
-	static {
-		new ZodLiteralAccelerator();
-	}
 }

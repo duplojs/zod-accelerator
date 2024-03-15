@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodOptionalAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodOptional;
@@ -30,8 +31,4 @@ export class ZodOptionalAccelerator extends ZodAccelerator{
 	static contentPart = {
         
 	};
-
-	static {
-		new ZodOptionalAccelerator();
-	}
 }

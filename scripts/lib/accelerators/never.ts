@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodNeverAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodNever;
@@ -20,8 +21,4 @@ export class ZodNeverAccelerator extends ZodAccelerator{
 			message: "Input is not never."
 		})
 	};
-
-	static {
-		new ZodNeverAccelerator();
-	}
 }

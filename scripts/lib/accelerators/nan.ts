@@ -2,6 +2,7 @@ import * as zod from "zod";
 import {ZodAccelerator} from "../accelerator";
 import {ZodAcceleratorContent} from "../content";
 
+@ZodAccelerator.autoInstance
 export class ZodNanAccelerator extends ZodAccelerator{
 	public get support(){
 		return zod.ZodNaN;
@@ -21,8 +22,4 @@ export class ZodNanAccelerator extends ZodAccelerator{
 			message: "Input is not NaN."
 		})
 	};
-
-	static {
-		new ZodNanAccelerator();
-	}
 }
