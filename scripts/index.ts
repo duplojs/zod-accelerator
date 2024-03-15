@@ -30,3 +30,5 @@ import "./lib/accelerators/bigInt";
 import "./lib/accelerators/effects";
 
 export * from "./lib/accelerator";
+export * from "./lib/error";
+export * from "./lib/parser";
