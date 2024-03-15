@@ -4,10 +4,17 @@ import {ZodAcceleratorParser} from "./parser";
 import {AbstractRoute, DuploConfig, DuploInstance, Process, Route} from "@duplojs/duplojs";
 import {duploExtends, duploInject} from "@duplojs/editor-tools";
 import {ZodAcceleratorError} from "./error";
+import packageJson from "../../package.json";
 
 declare module "zod" {
 	interface ZodType{
 		accelerator?: ZodAcceleratorParser<this>;
+	}
+}
+
+declare module "@duplojs/duplojs" {
+	interface Plugins {
+		"@duplojs/zod-accelerator": {version: string}
 	}
 }
 
@@ -57,6 +64,8 @@ export abstract class ZodAccelerator{
 		if(!params[environment]){
 			return;
 		}
+
+		instance.plugins["@duplojs/zod-accelerator"] = {version: packageJson.version};
 
 		const duploseHandler = (duplose: Route | Process | AbstractRoute) => {
 			if(Object.keys(duplose.extracted).length === 0){

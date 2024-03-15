@@ -1,5 +1,5 @@
 import {defineConfig} from "rollup";
-import esbuild from "rollup-plugin-esbuild";
+import typescript from "@rollup/plugin-typescript";
 import json from "@rollup/plugin-json";
 
 export default defineConfig([
@@ -16,10 +16,9 @@ export default defineConfig([
 			}
 		],
 		plugins: [
-			esbuild({
-				include: /\.[jt]sx?$/,
-				exclude: /node_modules/,
-				tsconfig: "tsconfig.json",
+			typescript({
+				exclude: ["node_mudules"],
+				tsconfig: "tsconfig.json"
 			}),
 			json(),
 		]
