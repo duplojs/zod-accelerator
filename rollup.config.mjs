@@ -18,7 +18,8 @@ export default defineConfig([
 		plugins: [
 			typescript({
 				exclude: ["node_mudules"],
-				tsconfig: "tsconfig.json"
+				tsconfig: "tsconfig.json",
+				module: "ESNext",
 			}),
 			json(),
 		]
