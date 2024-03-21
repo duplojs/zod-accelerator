@@ -24,10 +24,34 @@ export abstract class ZodAccelerator{
 	public abstract get support(): any;
 	public abstract makeAcceleratorContent(zodSchema: zod.ZodType, zac: ZodAcceleratorContent): ZodAcceleratorContent
 
-	protected static findAcceleratorContent(zodSchema: zod.ZodType){
+	protected static findAcceleratorContent(zodSchema: zod.ZodType, ignoreSchemaAccelerator: boolean = false){
 		for(const accelerator of this.accelerators){
 			if(zodSchema instanceof accelerator.support){
-				return accelerator.makeAcceleratorContent(zodSchema, new ZodAcceleratorContent());
+				const zac = new ZodAcceleratorContent();
+
+				if(
+					zodSchema.accelerator !== undefined &&
+					ignoreSchemaAccelerator === false
+				){
+					zac.addContext({
+						zodSchema
+					});
+
+					zac.addContent(`
+						let $output = $this.zodSchema.accelerator.safeParse($input);
+
+						if($output.success === false){
+							$output.error.message = $output.error.message.replace(".", \`$path.\`);
+							return $output;
+						}
+
+						$input = $output.data;
+					`);
+
+					return zac;
+				}
+
+				return accelerator.makeAcceleratorContent(zodSchema, zac);
 			}
 		}
 
@@ -37,8 +61,12 @@ export abstract class ZodAccelerator{
 	public static build<
 		_zodSchema extends zod.ZodType
 	>(zodSchema: _zodSchema){
+		zodSchema.accelerator = new ZodAcceleratorParser<any>(
+			() => ({success: false, error: new ZodAcceleratorError("", "")})
+		);
+
 		const accelerator = new ZodAcceleratorParser<_zodSchema>(
-			this.findAcceleratorContent(zodSchema).toFunction()
+			this.findAcceleratorContent(zodSchema, true).toFunction()
 		);
 
 		zodSchema.accelerator = accelerator;
