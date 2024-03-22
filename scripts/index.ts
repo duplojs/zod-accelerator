@@ -28,6 +28,7 @@ import "./lib/accelerators/literal";
 import "./lib/accelerators/readonly";
 import "./lib/accelerators/bigInt";
 import "./lib/accelerators/effects";
+import "./lib/accelerators/lazy";
 
 export * from "./lib/accelerator";
 export * from "./lib/error";
