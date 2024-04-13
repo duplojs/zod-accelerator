@@ -4,6 +4,7 @@ import myzod from "myzod";
 import {Type as typebox} from "@sinclair/typebox";
 import {TypeCompiler as typeboxCompiler} from "@sinclair/typebox/compiler";
 import {ZodAccelerator} from "../scripts";
+import vine from "@vinejs/vine";
 import Bench from "tinybench";
 
 const zodSchema = zod.union([
@@ -30,6 +31,15 @@ const typeboxSchema = typeboxCompiler.Compile(
 		}),
 	])
 );
+const vineSchema = vine.compile(
+	vine.unionOfTypes([
+		vine.string().sameAs("123"),
+		// vine.string().sameAs("456"),
+		vine.object({
+			test: vine.string()
+		}),
+	])
+);
 const zodAccelerateSchema = ZodAccelerator.build(zodSchema);
 
 
@@ -50,6 +60,9 @@ bench
 })
 .add("myzod", () => {
 	myzodSchema.parse(data);
+})
+.add("vine", async() => {
+	await vineSchema.validate(data);
 })
 .add("zodAccelerator", () => {
 	zodAccelerateSchema.parse(data);
