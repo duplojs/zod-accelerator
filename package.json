@@ -12,11 +12,12 @@
     "validate",
     "typecheck"
   ],
-  "types": "./types/index.ts",
+  "types": "./types/index.d.ts",
   "exports": {
     "default": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+	  "types": "./types/index.d.ts"
     }
   },
   "files": [
@@ -41,10 +42,12 @@
   "devDependencies": {
     "@duplojs/worker-testing": "^0.3.6",
     "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@sinclair/typebox": "^0.32.15",
     "@types/node": "^18.15.11",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "@vinejs/vine": "^1.8.0",
     "@vitest/coverage-istanbul": "^1.3.1",
     "autocannon": "^7.11.0",
     "eslint": "^8.45.0",
@@ -53,10 +56,9 @@
     "rollup": "^3.26.2",
     "sucrase": "^3.34.0",
     "tinybench": "^2.6.0",
+    "tslib": "^2.6.2",
     "tsx": "^4.7.1",
     "typescript": "^5.4.2",
-    "vitest": "^1.3.1",
-	"@rollup/plugin-typescript": "^11.1.6",
-    "tslib": "^2.6.2"
+    "vitest": "^1.3.1"
   }
 }
