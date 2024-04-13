@@ -4,6 +4,7 @@ import myzod from "myzod";
 import {Type as typebox} from "@sinclair/typebox";
 import {TypeCompiler as typeboxCompiler} from "@sinclair/typebox/compiler";
 import {ZodAccelerator} from "../scripts";
+import vine from "@vinejs/vine";
 import Bench from "tinybench";
 
 const zodSchema = zod.object({
@@ -68,6 +69,22 @@ const typeboxSchema = typeboxCompiler.Compile(
 		}),
 	})
 );
+const vineSchema = vine.compile(
+	vine.object({
+		firstname: vine.string(),
+		lastname: vine.string(),
+		age: vine.number(),
+		email: vine.string(),
+		gender: vine.enum(["boy", "girl"]),
+		connected: vine.boolean(),
+		// createdAt: vine.date(),
+		addresse: vine.object({
+			postCode: vine.string(),
+			city: vine.string(),
+			number: vine.number()
+		}),
+	})
+);
 const zodAccelerateSchema = ZodAccelerator.build(zodSchema);
 
 const bench = new Bench({time: 100});
@@ -99,6 +116,9 @@ bench
 })
 .add("myzod", () => {
 	myzodSchema.parse(data);
+})
+.add("vine", async() => {
+	await vineSchema.validate(data);
 })
 .add("zodAccelerator", () => {
 	zodAccelerateSchema.parse(data);

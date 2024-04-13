@@ -1,6 +1,6 @@
 export class ZodAcceleratorError extends Error{
 	constructor(
-		public path: string, 
+		path: string,
 		message: string
 	){
 		super(`${path || "."} : ${message}`);
