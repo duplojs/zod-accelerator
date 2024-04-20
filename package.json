@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@duplojs/duplojs": ">=1.1.11 <2.0.0",
-    "@duplojs/editor-tools": "^1.1.3",
+    "@duplojs/editor-tools": "^1.1.3 <2.0.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
