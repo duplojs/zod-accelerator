@@ -1,20 +1,11 @@
 import * as zod from "zod";
 import {ZodAcceleratorContent} from "./content";
 import {ZodAcceleratorParser} from "./parser";
-import {AbstractRoute, DuploConfig, DuploInstance, Process, Route} from "@duplojs/duplojs";
-import {duploExtends, duploInject} from "@duplojs/editor-tools";
 import {ZodAcceleratorError} from "./error";
-import packageJson from "../../package.json";
 
 declare module "zod" {
 	interface ZodType{
 		accelerator?: ZodAcceleratorParser<this>;
-	}
-}
-
-declare module "@duplojs/duplojs" {
-	interface Plugins {
-		"@duplojs/zod-accelerator": {version: string}
 	}
 }
 
@@ -76,67 +67,5 @@ export abstract class ZodAccelerator{
 
 	public static autoInstance(zodAccelerator: { new(...args: any[]): ZodAccelerator }){
 		ZodAccelerator.accelerators.push(new zodAccelerator());
-	}
-
-	public static duplojs(
-		instance: DuploInstance<DuploConfig>, 
-		params: Partial<
-			Record<
-				DuploConfig["environment"], 
-				boolean
-			>
-		> = {DEV: false, PROD: true}
-	){
-		const environment = instance.config.environment;
-
-		if(!params[environment]){
-			return;
-		}
-
-		instance.plugins["@duplojs/zod-accelerator"] = {version: packageJson.version};
-
-		const duploseHandler = (duplose: Route | Process | AbstractRoute) => {
-			if(Object.keys(duplose.extracted).length === 0){
-				return;
-			}
-			
-			Object.entries(duplose.extracted).forEach(([key, value]) => {
-				if(!value){
-					return;
-				}
-				
-				if(value instanceof zod.ZodType){
-					ZodAccelerator.build(value);
-				}
-				else {
-					Object.entries(value).forEach(([key, deepValue]) => {
-						ZodAccelerator.build(deepValue);
-					});
-				}
-			});
-			
-			duploExtends(duplose, {
-				ZodAcceleratorError,
-			});
-
-			duploInject(duplose, ({}, d) => {
-				d.stringDuploseFunction = d.stringDuploseFunction.replace(
-					/\.parse\(request/g, 
-					".accelerator.parse(request"
-				);				
-				d.stringDuploseFunction = d.stringDuploseFunction.replace(
-					/error instanceof this\.ZodError/, 
-					"error instanceof this.extensions.ZodAcceleratorError"
-				);
-			});
-		};
-
-		instance.addHook("onDeclareRoute", duploseHandler);
-		instance.addHook("onDeclareAbstractRoute", (abstractRoute) => {
-			if(abstractRoute instanceof AbstractRoute){
-				duploseHandler(abstractRoute);
-			}
-		});
-		instance.addHook("onCreateProcess", duploseHandler);
 	}
 }

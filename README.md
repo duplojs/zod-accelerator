@@ -52,9 +52,9 @@ const outputData = zodAccelerateSchema.parse(inputData);
 ## Implémentation dans duplojs
 ```ts
 import Duplo, {zod} from "@duplojs/duplojs";
-import {ZodAccelerator} from "@duplojs/zod-accelerator";
+import duploZodAccelerator from "@duplojs/zod-accelerator/duplo";
 
 const duplo = Duplo({port: 1506, host: "localhost", environment: "DEV"});
 
-duplo.use(ZodAccelerator.duplojs, {DEV: true});
+duplo.use(duploZodAccelerator, {DEV: true});
 ```
