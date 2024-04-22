@@ -1,6 +1,6 @@
 import Duplo, {zod} from "@duplojs/duplojs";
 import {parentPort} from "worker_threads";
-import duploZodAccelerator from "../../../scripts/duplo";
+import duploZodAccelerator from "../../../scripts/plugin";
 
 const duplo = Duplo({port: 1506, host: "localhost", environment: "DEV"});
 

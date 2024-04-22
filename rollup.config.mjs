@@ -25,14 +25,14 @@ export default defineConfig([
 		]
 	},
 	{
-		input: "scripts/duplo.ts",
+		input: "scripts/plugin.ts",
 		output: [
 			{
-				file: "dist/duplo.mjs",
+				file: "dist/plugin.mjs",
 				format: "esm"
 			},
 			{
-				file: "dist/duplo.cjs",
+				file: "dist/plugin.cjs",
 				format: "cjs",
 			}
 		],
