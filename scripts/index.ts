@@ -33,3 +33,5 @@ import "./lib/accelerators/lazy";
 export * from "./lib/accelerator";
 export * from "./lib/error";
 export * from "./lib/parser";
+
+export {ZodAccelerator as default} from "./lib/accelerator";

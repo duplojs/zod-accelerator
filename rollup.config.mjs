@@ -24,4 +24,25 @@ export default defineConfig([
 			json(),
 		]
 	},
+	{
+		input: "scripts/duplo.ts",
+		output: [
+			{
+				file: "dist/duplo.mjs",
+				format: "esm"
+			},
+			{
+				file: "dist/duplo.cjs",
+				format: "cjs",
+			}
+		],
+		plugins: [
+			typescript({
+				exclude: ["node_mudules"],
+				tsconfig: "tsconfig.json",
+				module: "ESNext",
+			}),
+			json(),
+		]
+	},
 ]);
