@@ -17,6 +17,7 @@ export class ZodAcceleratorContent{
 		"$this.": "this.{id}_",
 		"$id": "{id}",
 	};
+	private static inc = 0;
 
 	readonly id = ZodAcceleratorContent.generateId();
 	content: string[] = [];
@@ -107,6 +108,6 @@ export class ZodAcceleratorContent{
 	}
 
 	private static generateId(){
-		return `duploj$${process.hrtime.bigint()}`;
+		return `duploj$${(this.inc++)}`;
 	}
 }
