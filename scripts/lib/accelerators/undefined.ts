@@ -5,7 +5,7 @@ import {ZodAcceleratorContent} from "../content";
 @ZodAccelerator.autoInstance
 export class ZodUndefinedAccelerator extends ZodAccelerator{
 	public get support(){
-		return zod.ZodUndefined;
+		return ZodAccelerator.zod.ZodUndefined;
 	}
 
 	public makeAcceleratorContent(zodSchema: zod.ZodUndefined, zac: ZodAcceleratorContent){

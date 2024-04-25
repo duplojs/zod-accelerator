@@ -5,7 +5,7 @@ import {ZodAcceleratorContent} from "../content";
 @ZodAccelerator.autoInstance
 export class ZodBigIntAccelerator extends ZodAccelerator{
 	public get support(){
-		return zod.ZodBigInt;
+		return ZodAccelerator.zod.ZodBigInt;
 	}
 
 	public makeAcceleratorContent(zodSchema: zod.ZodBigInt, zac: ZodAcceleratorContent){

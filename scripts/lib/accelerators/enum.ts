@@ -5,7 +5,7 @@ import {ZodAcceleratorContent} from "../content";
 @ZodAccelerator.autoInstance
 export class ZodEnumAccelerator extends ZodAccelerator{
 	public get support(){
-		return zod.ZodEnum;
+		return ZodAccelerator.zod.ZodEnum;
 	}
 
 	public makeAcceleratorContent(zodSchema: zod.ZodEnum<[string]>, zac: ZodAcceleratorContent){
