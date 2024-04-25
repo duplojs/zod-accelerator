@@ -11,6 +11,7 @@ declare module "zod" {
 
 export abstract class ZodAccelerator{
 	protected static accelerators: ZodAccelerator[] = [];
+	protected static zod = zod;
 
 	public abstract get support(): any;
 	public abstract makeAcceleratorContent(zodSchema: zod.ZodType, zac: ZodAcceleratorContent): ZodAcceleratorContent
@@ -67,5 +68,9 @@ export abstract class ZodAccelerator{
 
 	public static autoInstance(zodAccelerator: { new(...args: any[]): ZodAccelerator }){
 		ZodAccelerator.accelerators.push(new zodAccelerator());
+	}
+
+	public static injectZod(z: typeof zod){
+		this.zod = z;
 	}
 }

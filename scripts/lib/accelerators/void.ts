@@ -5,6 +5,6 @@ import {ZodAccelerator} from "../accelerator";
 @ZodAccelerator.autoInstance
 export class ZodVoidAccelerator extends ZodUndefinedAccelerator{
 	public get support(): any{
-		return zod.ZodVoid;
+		return ZodAccelerator.zod.ZodVoid;
 	}
 }

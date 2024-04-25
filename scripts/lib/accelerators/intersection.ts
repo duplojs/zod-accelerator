@@ -7,7 +7,7 @@ import {AcceleratorSafeParseError} from "../parser";
 @ZodAccelerator.autoInstance
 export class ZodIntersectionAccelerator extends ZodAccelerator{
 	public get support(){
-		return zod.ZodIntersection;
+		return ZodAccelerator.zod.ZodIntersection;
 	}
 
 	public makeAcceleratorContent(zodSchema: zod.ZodIntersection<zod.ZodType, zod.ZodType>, zac: ZodAcceleratorContent){
