@@ -1,0 +1,43 @@
+name: rename-pull-request
+
+on: 
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  publisher:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: thehanimo/pr-title-checker@v1.4.2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          pass_on_octokit_error: false
+          configuration_path: ".github/workflows/main@check-title.json"
+
+      - name: get current version
+        uses: duplojs/action-semver@v0.3.0
+        id: semver
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: zod-accelerator
+          GITHUB_BRANCHE: develop
+          REGEXP_PATCH: '^fix'
+          REGEXP_MINOR: '^feat'
+          REGEXP_MAJOR: '^break'
+          MAJOR_START_AT: 1
+
+      - name: see version
+        run: echo "${{ steps.semver.outputs.COMPUTED_VERSION }}"
+
+      - uses: tzkhan/pr-update-action@v2
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          base-branch-regex: 'main'
+          title-template: 'publish: ${{ steps.semver.outputs.COMPUTED_VERSION }}'
+          title-update-action: "replace"

@@ -1,0 +1,14 @@
+{
+    "LABEL": {
+        "name": "no publish",
+        "color": "f00020"
+    },
+    "CHECKS": {
+		"regexp": "^publish"
+    },
+    "MESSAGES": {
+      "success": "All OK",
+      "failure": "Failing CI test",
+      "notice": "Only prefix 'publish' is accepted."
+    }
+}
