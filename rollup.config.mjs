@@ -1,48 +1,23 @@
-import {defineConfig} from "rollup";
-import typescript from "@rollup/plugin-typescript";
-import json from "@rollup/plugin-json";
+import typescript from '@rollup/plugin-typescript';
+import { defineConfig } from "rollup";
 
-export default defineConfig([
-	{
-		input: "scripts/index.ts",
-		output: [
-			{
-				file: "dist/index.mjs",
-				format: "esm"
-			},
-			{
-				file: "dist/index.cjs",
-				format: "cjs",
-			}
-		],
-		plugins: [
-			typescript({
-				exclude: ["node_mudules"],
-				tsconfig: "tsconfig.json",
-				module: "ESNext",
-			}),
-			json(),
-		]
-	},
-	{
-		input: "scripts/plugin.ts",
-		output: [
-			{
-				file: "dist/plugin.mjs",
-				format: "esm"
-			},
-			{
-				file: "dist/plugin.cjs",
-				format: "cjs",
-			}
-		],
-		plugins: [
-			typescript({
-				exclude: ["node_mudules"],
-				tsconfig: "tsconfig.json",
-				module: "ESNext",
-			}),
-			json(),
-		]
-	},
-]);
+export default defineConfig({
+	input: "scripts/index.ts",
+	output: [
+		{
+			file: "dist/index.cjs",
+			format: "cjs",
+		},
+		{
+			file: "dist/index.mjs",
+			format: "esm",
+		},
+	],
+	plugins: [
+		typescript({
+			tsconfig: "tsconfig.json",
+			include: /\.[jt]sx?$/,
+			exclude: /node_modules/,
+		}),
+	],
+});
