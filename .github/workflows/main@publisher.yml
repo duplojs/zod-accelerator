@@ -1,0 +1,70 @@
+name: publisher
+
+on:
+  pull_request_target:
+    branches:
+      - main
+    types: [closed]
+
+jobs:
+  publisher:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check if event is merge
+        run: |
+          if [ "${{ github.event.pull_request.merged }}" != "true" ]; then
+            exit 1
+          fi
+          
+      - uses: thehanimo/pr-title-checker@v1.4.2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          pass_on_octokit_error: false
+          configuration_path: ".github/workflows/main@check-title.json"
+      
+      - name: get develop branch
+        uses: actions/checkout@v4
+
+      - name: get current version
+        uses: duplojs/action-semver@v0.3.0
+        id: semver
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: zod-accelerator
+          GITHUB_BRANCHE: develop
+          REGEXP_PATCH: '^fix'
+          REGEXP_MINOR: '^feat'
+          REGEXP_MAJOR: '^break'
+          MAJOR_START_AT: 1
+
+      - name: see version
+        run: echo "${{ steps.semver.outputs.COMPUTED_VERSION }}"
+
+      - name: set Version In package.json
+        run: |
+          sed -i 's/"version":.*".*"/"version": "'${{ steps.semver.outputs.COMPUTED_VERSION }}'"/' package.json
+
+      - name: set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org/'
+          scope: '@mathcovax'
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: build
+        run: npm run build
+      
+      - name: Publish to NPM
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            Published at : `${{ steps.semver.outputs.COMPUTED_VERSION }}`.

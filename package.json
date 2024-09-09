@@ -2,72 +2,66 @@
   "name": "@duplojs/zod-accelerator",
   "version": "0.0.0",
   "author": "mathcovax",
-  "description": "",
-  "repository": "https://github.com/duplojs/duplojs-zod-accelerator",
   "license": "ISC",
+  "type": "module",
+  "repository": "https://github.com/duplojs/zod-accelerator",
+  "scripts": {
+    "build:scripts": "rollup --config",
+    "build:types": "tsc -p tsconfig.types.json",
+    "build": "npm run build:types && npm run build:scripts",
+    "test:tu": "vitest --coverage",
+    "test:tu:watch": "vitest --coverage --watch",
+    "test:bench": "tsx benchmark/string.bench.ts && tsx benchmark/object.bench.ts && tsx benchmark/array.bench.ts && tsx benchmark/union.bench.ts",
+    "test:types": "npm run test:types:scripts",
+    "test:types:scripts": "tsc",
+    "test:lint": "eslint",
+    "test:lint:fix": "eslint --fix",
+    "prepare": "husky"
+  },
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "types",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "zod": ">=3.0.0 <4.0.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.4.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@duplojs/eslint": "0.2.2",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@sinclair/typebox": "^0.33.9",
+    "@types/node": "22.1.0",
+    "@vinejs/vine": "^2.1.0",
+    "@vitest/coverage-istanbul": "2.0.5",
+    "eslint": "9.9.0",
+    "husky": "^9.1.4",
+    "joi": "^17.13.3",
+    "myzod": "^1.11.0",
+    "rollup": "4.19.2",
+    "rollup-plugin-esbuild": "6.1.1",
+    "tslib": "^2.6.3",
+    "typescript": "5.5.4",
+    "vite-tsconfig-paths": "^5.0.1",
+    "vitest": "2.0.5"
+  },
   "keywords": [
     "typescript",
     "json-schema",
     "parser",
     "validate",
     "typecheck",
-	"zod",
-	"faster",
-	"zod faster"
-  ],
-  "types": "./types/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-	  "types": "./types/index.d.ts"
-    },
-	"./plugin": {
-	  "types": "./plugin.d.ts",
-	  "import": "./dist/plugin.mjs",
-	  "require": "./dist/plugin.cjs"
-	}
-  },
-  "files": [
-    "dist",
-    "types",
-	"plugin.d.ts"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "scripts": {
-    "build": "rollup --config && npx tsc -p tsconfig.build.json",
-    "test:bench": "tsx benchmark/string.bench.ts && tsx benchmark/object.bench.ts && tsx benchmark/array.bench.ts && tsx benchmark/union.bench.ts",
-    "test:tu:coverage": "npx vitest --coverage",
-    "test:e2e": "node --require sucrase/register test/E2E",
-    "test:types": "tsc"
-  },
-  "dependencies": {
-    "@duplojs/duplojs": ">=1.8.20 <2.0.0",
-    "@duplojs/editor-tools": ">=1.1.3 <2.0.0",
-    "zod": ">=3.0.0 <4.0.0"
-  },
-  "devDependencies": {
-    "@duplojs/worker-testing": "^0.3.6",
-    "@rollup/plugin-json": "^6.0.1",
-    "@rollup/plugin-typescript": "^11.1.6",
-    "@sinclair/typebox": "^0.32.15",
-    "@types/node": "^18.15.11",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "@vinejs/vine": "^1.8.0",
-    "@vitest/coverage-istanbul": "^1.3.1",
-    "autocannon": "^7.11.0",
-    "eslint": "^8.45.0",
-    "joi": "^17.12.2",
-    "myzod": "^1.11.0",
-    "rollup": "^3.26.2",
-    "sucrase": "^3.34.0",
-    "tinybench": "^2.6.0",
-    "tslib": "^2.6.2",
-    "tsx": "^4.7.1",
-    "typescript": "^5.4.2",
-    "vitest": "^1.3.1"
-  }
+    "zod",
+    "faster",
+    "zod faster"
+  ]
 }

@@ -1,11 +1,11 @@
 import * as zod from "zod";
 import joi from "joi";
 import myzod from "myzod";
-import {Type as typebox} from "@sinclair/typebox";
-import {TypeCompiler as typeboxCompiler} from "@sinclair/typebox/compiler";
-import {ZodAccelerator} from "../scripts";
+import { Type as typebox } from "@sinclair/typebox";
+import { TypeCompiler as typeboxCompiler } from "@sinclair/typebox/compiler";
+import { ZodAccelerator } from "../scripts";
 import vine from "@vinejs/vine";
-import Bench from "tinybench";
+import { Bench } from "tinybench";
 
 const zodSchema = zod.object({
 	firstname: zod.string().optional(),
@@ -18,7 +18,7 @@ const zodSchema = zod.object({
 	addresse: zod.object({
 		postCode: zod.string(),
 		city: zod.string(),
-		number: zod.number()
+		number: zod.number(),
 	}),
 });
 const joiSchema = joi.object({
@@ -32,7 +32,7 @@ const joiSchema = joi.object({
 	addresse: joi.object({
 		postCode: joi.string(),
 		city: joi.string(),
-		number: joi.number()
+		number: joi.number(),
 	}),
 });
 const myzodSchema = myzod.object({
@@ -46,12 +46,12 @@ const myzodSchema = myzod.object({
 	addresse: myzod.object({
 		postCode: myzod.string(),
 		city: myzod.string(),
-		number: myzod.number()
+		number: myzod.number(),
 	}),
 });
 enum typeboxGender {
-    boy = "boy",
-    girl = "girl"
+	boy = "boy",
+	girl = "girl",
 }
 const typeboxSchema = typeboxCompiler.Compile(
 	typebox.Object({
@@ -65,9 +65,9 @@ const typeboxSchema = typeboxCompiler.Compile(
 		addresse: typebox.Object({
 			postCode: typebox.String(),
 			city: typebox.String(),
-			number: typebox.Number()
+			number: typebox.Number(),
 		}),
-	})
+	}),
 );
 const vineSchema = vine.compile(
 	vine.object({
@@ -81,13 +81,13 @@ const vineSchema = vine.compile(
 		addresse: vine.object({
 			postCode: vine.string(),
 			city: vine.string(),
-			number: vine.number()
+			number: vine.number(),
 		}),
-	})
+	}),
 );
 const zodAccelerateSchema = ZodAccelerator.build(zodSchema);
 
-const bench = new Bench({time: 100});
+const bench = new Bench({ time: 100 });
 
 const data = {
 	firstname: "  Mike ",
@@ -100,34 +100,32 @@ const data = {
 	addresse: {
 		postCode: "22778",
 		city: "Paris",
-		number: 67
+		number: 67,
 	},
 };
 
 bench
-.add("zod", () => {
-	zodSchema.parse(data);
-})
-.add("joi", () => {
-	joiSchema.validate(data);
-})
-.add("@sinclair/typebox", () => {
-	typeboxSchema.Check(data);
-})
-.add("myzod", () => {
-	myzodSchema.parse(data);
-})
-.add("vine", async() => {
-	await vineSchema.validate(data);
-})
-.add("zodAccelerator", () => {
-	zodAccelerateSchema.parse(data);
-});
+	.add("zod", () => {
+		zodSchema.parse(data);
+	})
+	.add("joi", () => {
+		joiSchema.validate(data);
+	})
+	.add("@sinclair/typebox", () => {
+		typeboxSchema.Check(data);
+	})
+	.add("myzod", () => {
+		myzodSchema.parse(data);
+	})
+	.add("vine", async() => {
+		await vineSchema.validate(data);
+	})
+	.add("zodAccelerator", () => {
+		zodAccelerateSchema.parse(data);
+	});
 
-(async() => {
-	await bench.warmup();
-	await bench.run();
+await bench.warmup();
+await bench.run();
 
-	console.log("Result test Object :");
-	console.table(bench.table());
-})();
+console.log("Result test Object :");
+console.table(bench.table());

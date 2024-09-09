@@ -1,0 +1,14 @@
+{
+    "LABEL": {
+        "name": "wrong title",
+        "color": "f00020"
+    },
+    "CHECKS": {
+		"regexp": "^(break|feat|fix)"
+    },
+    "MESSAGES": {
+      "success": "All OK",
+      "failure": "Failing CI test",
+      "notice": "Only prefix '[feat | fix | break]' is accepted."
+    }
+}

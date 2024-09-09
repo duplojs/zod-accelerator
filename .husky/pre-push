@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+npm run test:lint
+npm run test:types
+npm run test:tu

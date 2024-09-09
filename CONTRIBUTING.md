@@ -4,11 +4,11 @@ Nous sommes heureux de recevoir des contributions à ce projet open source ! Si 
 
 ## Signaler des bugs
 
-Si vous rencontrez un bug dans le projet, veuillez créer un rapport de bug en suivant [ce modèle](https://github.com/duplojs/duplojs-zod-accelerator/blob/develop/.github/ISSUE_TEMPLATE/signalement-de-bug.md). Assurez-vous de fournir suffisamment d'informations pour reproduire le bug et de faire une recherche pour vous assurer qu'il n'a pas déjà été signalé.
+Si vous rencontrez un bug dans le projet, veuillez créer un rapport de bug en suivant [ce modèle](https://github.com/duplojs/zod-accelerator/blob/develop/.github/ISSUE_TEMPLATE/signalement-de-bug.md). Assurez-vous de fournir suffisamment d'informations pour reproduire le bug et de faire une recherche pour vous assurer qu'il n'a pas déjà été signalé.
 
 ## Demander une fonctionnalité
 
-Si vous souhaitez proposer une nouvelle fonctionnalité ou une modification de fonctionnalité existante, veuillez créer une demande de fonctionnalité en suivant [ce modèle](https://github.com/duplojs/duplojs-zod-accelerator/blob/develop/.github/ISSUE_TEMPLATE/demande-de-fonctionnalit%C3%A9.md). Assurez-vous de fournir suffisamment d'informations pour comprendre l'intérêt de la fonctionnalité proposée et de faire une recherche pour vous assurer qu'elle n'a pas déjà été demandée.
+Si vous souhaitez proposer une nouvelle fonctionnalité ou une modification de fonctionnalité existante, veuillez créer une demande de fonctionnalité en suivant [ce modèle](https://github.com/duplojs/zod-accelerator/blob/develop/.github/ISSUE_TEMPLATE/demande-de-fonctionnalit%C3%A9.md). Assurez-vous de fournir suffisamment d'informations pour comprendre l'intérêt de la fonctionnalité proposée et de faire une recherche pour vous assurer qu'elle n'a pas déjà été demandée.
 
 ## Contribuer au code
 

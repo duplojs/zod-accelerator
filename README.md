@@ -1,4 +1,4 @@
-# duplojs-zod-accelerator
+# zod-accelerator
 [![NPM version](https://img.shields.io/npm/v/@duplojs/zod-accelerator)](https://www.npmjs.com/package/@duplojs/zod-accelerator)
 
 ## Instalation
@@ -47,14 +47,4 @@ const inputData = Array.from({length: 10}).fill({
 });
 
 const outputData = zodAccelerateSchema.parse(inputData);
-```
-
-## Implémentation dans duplojs
-```ts
-import Duplo, {zod} from "@duplojs/duplojs";
-import duploZodAccelerator from "@duplojs/zod-accelerator/plugin";
-
-const duplo = Duplo({port: 1506, host: "localhost", environment: "DEV"});
-
-duplo.use(duploZodAccelerator, {DEV: true});
 ```
