@@ -50,6 +50,7 @@
     "rollup": "4.19.2",
     "rollup-plugin-esbuild": "6.1.1",
     "tslib": "^2.6.3",
+    "tsx": "^4.19.0",
     "typescript": "5.5.4",
     "vite-tsconfig-paths": "^5.0.1",
     "vitest": "2.0.5"

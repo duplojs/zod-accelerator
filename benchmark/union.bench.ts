@@ -50,9 +50,6 @@ bench
 	.add("zod", () => {
 		zodSchema.parse(data);
 	})
-	.add("joi", () => {
-		throw new Error("joi union");
-	})
 	.add("@sinclair/typebox", () => {
 		typeboxSchema.Check(data);
 	})
