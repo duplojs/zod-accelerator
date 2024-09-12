@@ -1,4 +1,4 @@
-import * as zod from "zod";
+import { z as zod } from "zod";
 import { ZodAcceleratorContent } from "./content";
 import { ZodAcceleratorParser } from "./parser";
 import { ZodAcceleratorError } from "./error";
@@ -75,7 +75,9 @@ export abstract class ZodAccelerator {
 		ZodAccelerator.accelerators.push(new zodAccelerator());
 	}
 
-	public static injectZod<Z extends typeof zod>(zod: Z) {
+	public static injectZod<
+		Z extends typeof zod,
+	>(zod: Z) {
 		this.zod = zod;
 	}
 }
