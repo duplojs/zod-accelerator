@@ -15,9 +15,13 @@ export type AcceleratorSafeParseError<
 	};
 
 export class ZodAcceleratorParser<
-	_zodSchema extends zod.ZodType,
+	_zodSchema extends zod.ZodType = zod.ZodType,
 	_output extends _zodSchema["_output"] = _zodSchema["_output"],
 > {
+	public get isAsync() {
+		return this.buidledParse.constructor.name === "AsyncFunction";
+	}
+
 	public constructor(
 		private buidledParse: (input: unknown) => PromiseOrNot<AcceleratorSafeParseError<_output>>,
 	) { }

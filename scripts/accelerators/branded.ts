@@ -1,4 +1,3 @@
-import * as zod from "zod";
 import { ZodAnyAccelerator } from "./any";
 import { ZodAccelerator } from "../accelerator";
 
