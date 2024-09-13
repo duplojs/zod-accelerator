@@ -29,7 +29,13 @@ describe("effects type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : super message");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: "super message",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -49,7 +55,13 @@ describe("effects type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : super message");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: "super message",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -77,7 +89,13 @@ describe("effects type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : super message");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: "super message",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -107,7 +125,13 @@ describe("effects type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : super message");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: "super message",
+					path: [],
+				},
+			]);
 		}
 	});
 });

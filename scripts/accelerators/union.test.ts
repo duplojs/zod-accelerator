@@ -37,7 +37,13 @@ describe("union type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input has no correspondence in union.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input has no correspondence in union.",
+					path: [],
+				},
+			]);
 		}
 	});
 });

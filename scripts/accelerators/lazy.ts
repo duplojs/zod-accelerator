@@ -1,6 +1,5 @@
 import type * as zod from "zod";
 import { ZodAccelerator } from "../accelerator";
-import { ZodAcceleratorContent } from "../content";
 
 @ZodAccelerator.autoInstance
 export class ZodLazyAccelerator extends ZodAccelerator {

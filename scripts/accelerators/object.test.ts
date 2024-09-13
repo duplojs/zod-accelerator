@@ -32,7 +32,13 @@ describe("object type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".test1 : Input is not a String.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ".test1 : Input is not a String.",
+					path: ["test1"],
+				},
+			]);
 		}
 
 		data = 11;
@@ -44,7 +50,13 @@ describe("object type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input is not Object.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input is not Object.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -73,7 +85,13 @@ describe("object type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".test2 : Input Object has key to many.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ".test2 : Input Object has key to many.",
+					path: ["test2"],
+				},
+			]);
 		}
 	});
 
@@ -129,7 +147,13 @@ describe("object type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".ddd.test2 : Input is not a Number.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ".ddd.test2 : Input is not a Number.",
+					path: ["ddd", "test2"],
+				},
+			]);
 		}
 
 		data = {
@@ -147,7 +171,13 @@ describe("object type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".ddd.test3 : Input Object has key to many.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ".ddd.test3 : Input Object has key to many.",
+					path: ["ddd", "test3"],
+				},
+			]);
 		}
 	});
 });

@@ -57,7 +57,13 @@ describe("lazy type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".subcategories.[Array 0].subcategories.[Array 1].name : Input is not a String.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ".subcategories.[Array 0].subcategories.[Array 1].name : Input is not a String.",
+					path: ["subcategories", "[Array 0]", "subcategories", "[Array 1]", "name"],
+				},
+			]);
 		}
 	});
 
@@ -78,7 +84,13 @@ describe("lazy type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input is not a String.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input is not a String.",
+					path: [],
+				},
+			]);
 		}
 	});
 });
