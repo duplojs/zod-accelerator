@@ -12,7 +12,7 @@ export default defineConfig({
 				"text", "json", "html", "json-summary"
 			],
 			reportsDirectory: "coverage",
-			include: ["scripts/accelerators/**/**.ts"],
+			include: ["scripts/accelerators/**/**.ts", "scripts/utils/**/**.ts"],
 		}
 	},
 	plugins: [tsconfigPaths()],

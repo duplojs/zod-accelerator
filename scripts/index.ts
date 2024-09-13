@@ -30,8 +30,14 @@ import "./accelerators/bigInt";
 import "./accelerators/effects";
 import "./accelerators/lazy";
 
+// must be import at last
+import "./accelerators/type";
+
 export * from "./accelerator";
 export * from "./error";
 export * from "./parser";
+
+export * from "./utils/zodSchemaIsAsync";
+export * from "./utils/types";
 
 export { ZodAccelerator as default } from "./accelerator";

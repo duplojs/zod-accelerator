@@ -1,6 +1,7 @@
 import * as zod from "zod";
 import { ZodAccelerator } from "../accelerator";
 import type { ZodAcceleratorContent } from "../content";
+import { zodSchemaIsAsync } from "..";
 
 @ZodAccelerator.autoInstance
 export class ZodEffectAccelerator extends ZodAccelerator {
@@ -10,6 +11,7 @@ export class ZodEffectAccelerator extends ZodAccelerator {
 
 	public makeAcceleratorContent(zodSchema: zod.ZodEffects<zod.ZodAny>, zac: ZodAcceleratorContent) {
 		const def = zodSchema._def;
+		const async = zodSchemaIsAsync(zodSchema);
 
 		zac.addContext({
 			transform: def.effect.type === "transform" ? def.effect.transform : undefined,
@@ -19,7 +21,7 @@ export class ZodEffectAccelerator extends ZodAccelerator {
 		});
 
 		zac.addContent(
-			def.effect.type !== "preprocess" || ZodEffectAccelerator.contentPart.preprocess(def.effect.transform.constructor.name === "AsyncFunction"),
+			def.effect.type !== "preprocess" || ZodEffectAccelerator.contentPart.preprocess(async),
 			[
 				ZodAccelerator.findAcceleratorContent(def.schema),
 				{
@@ -28,8 +30,8 @@ export class ZodEffectAccelerator extends ZodAccelerator {
 					output: "$input",
 				},
 			],
-			def.effect.type !== "transform" || ZodEffectAccelerator.contentPart.transform(def.effect.transform.constructor.name === "AsyncFunction"),
-			def.effect.type !== "refinement" || ZodEffectAccelerator.contentPart.refinement(def.effect.refinement.constructor.name === "AsyncFunction"),
+			def.effect.type !== "transform" || ZodEffectAccelerator.contentPart.transform(async),
+			def.effect.type !== "refinement" || ZodEffectAccelerator.contentPart.refinement(async),
 		);
 
 		return zac;
