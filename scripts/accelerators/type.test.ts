@@ -21,7 +21,13 @@ describe("type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : ZodSchema Fail parse.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : ZodSchema Fail parse.",
+					path: [],
+				},
+			]);
 		}
 	});
 });

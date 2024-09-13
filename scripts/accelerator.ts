@@ -39,8 +39,13 @@ export abstract class ZodAccelerator {
 						let $output = ${mayBeAwait} $this.zodSchema.accelerator.${parseMethod}($input);
 
 						if($output.success === false){
-							$output.error.message = $output.error.message.replace(".", \`$path.\`);
-							return $output;
+							return {
+								success: false, 
+								error: new ZodAcceleratorError(
+									$output.error.passedPath.replace(".", \`$path.\`), 
+									$output.error.passedMessage
+								)
+							}
 						}
 
 						$input = $output.data;

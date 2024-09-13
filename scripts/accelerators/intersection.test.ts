@@ -22,7 +22,13 @@ describe("intersection type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String has length less than 10.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String has length less than 10.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -64,7 +70,13 @@ describe("intersection type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".test3 : Input is not Object.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ".test3 : Input is not Object.",
+					path: ["test3"],
+				},
+			]);
 		}
 	});
 
@@ -106,7 +118,13 @@ describe("intersection type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Intersection results could not be merged.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Intersection results could not be merged.",
+					path: [],
+				},
+			]);
 		}
 
 		data = {
@@ -120,7 +138,13 @@ describe("intersection type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Intersection results could not be merged.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Intersection results could not be merged.",
+					path: [],
+				},
+			]);
 		}
 
 		data = {
@@ -134,7 +158,13 @@ describe("intersection type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Intersection results could not be merged.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Intersection results could not be merged.",
+					path: [],
+				},
+			]);
 		}
 
 		data = {};

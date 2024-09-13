@@ -19,7 +19,13 @@ describe("tuple type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".[Tuple 1] : Input is not a Number.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ".[Tuple 1] : Input is not a Number.",
+					path: ["[Tuple 1]"],
+				},
+			]);
 		}
 	});
 
@@ -43,7 +49,13 @@ describe("tuple type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".[Tuple Rest 2] : Input is not a String.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ".[Tuple Rest 2] : Input is not a String.",
+					path: ["[Tuple Rest 2]"],
+				},
+			]);
 		}
 	});
 });

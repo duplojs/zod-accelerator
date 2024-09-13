@@ -19,7 +19,13 @@ describe("literal type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input literal is wrong.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input literal is wrong.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -39,7 +45,13 @@ describe("literal type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input literal is wrong.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input literal is wrong.",
+					path: [],
+				},
+			]);
 		}
 	});
 });

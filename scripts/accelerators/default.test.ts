@@ -19,7 +19,13 @@ describe("default type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input is not a String.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input is not a String.",
+					path: [],
+				},
+			]);
 		}
 	});
 

@@ -19,7 +19,13 @@ describe("date type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(schema.safeParse(data).success).toBe(false);
 			expect(err).instanceOf(ZodAcceleratorError);
-			expect(err.message).toBe(". : Input is invalide Date.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input is invalide Date.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -44,7 +50,13 @@ describe("date type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(`. : Input Date is less than ${minDate.getTime()}.`);
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: `. : Input Date is less than ${minDate.getTime()}.`,
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -69,7 +81,13 @@ describe("date type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(`. : Input Date is more than ${minDate.getTime()}.`);
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: `. : Input Date is more than ${minDate.getTime()}.`,
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -89,7 +107,13 @@ describe("date type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(schema.safeParse(data).success).toBe(false);
 			expect(err).instanceOf(ZodAcceleratorError);
-			expect(err.message).toBe(". : Input is invalide Date.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input is invalide Date.",
+					path: [],
+				},
+			]);
 		}
 	});
 });

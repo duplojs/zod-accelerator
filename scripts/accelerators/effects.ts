@@ -45,13 +45,20 @@ export class ZodEffectAccelerator extends ZodAccelerator {
                 {
                     path: [], 
                     addIssue: (issue) => {
-                        $id_issue = {success: false, error: new ZodAcceleratorError(\`$path\`, issue.message || "Effect transform issue without message.")};
+                        $id_issue = {
+							success: false, 
+							error: new ZodAcceleratorError(\`$path\`, "Effect transform issue without message.", issue)
+						};
                     }
                 }
             )
 
-			if($id_issue || $input === this.duploj$Never){
-				return $id_issue || {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
+			if($id_issue) {
+				return $id_issue;
+			}
+
+			if($input === this.duploj$Never){
+				return {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
 			}
         `,
 		refinement: (isAsync: boolean) => `
@@ -61,14 +68,21 @@ export class ZodEffectAccelerator extends ZodAccelerator {
                 {
                     path: [], 
                     addIssue: (issue) => {
-                        $id_issue = {success: false, error: new ZodAcceleratorError(\`$path\`, issue.message || "Effect refinement issue without message.")};
+                        $id_issue = {
+							success: false, 
+							error: new ZodAcceleratorError(\`$path\`, "Effect refinement issue without message.", issue)
+						};
                     }
 
                 }
             )
 
-			if($id_issue || $input === this.duploj$Never){
-				return $id_issue || {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
+			if($id_issue) {
+				return $id_issue;
+			}
+
+			if($input === this.duploj$Never){
+				return {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
 			}
         `,
 		preprocess: (isAsync: boolean) => `
@@ -78,13 +92,20 @@ export class ZodEffectAccelerator extends ZodAccelerator {
                 {
                     path: [], 
                     addIssue: (issue) => {
-                        $id_issue = {success: false, error: new ZodAcceleratorError(\`$path\`, issue.message || "Effect preprocess issue without message.")};
+                        $id_issue = {
+							success: false, 
+							error: new ZodAcceleratorError(\`$path\`, "Effect preprocess issue without message.", issue)
+						};
                     }
                 }
             )
 
-			if($id_issue || $input === this.duploj$Never){
-				return $id_issue || {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
+			if($id_issue) {
+				return $id_issue;
+			}
+
+			if($input === this.duploj$Never){
+				return {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
 			}
         `,
 	};
