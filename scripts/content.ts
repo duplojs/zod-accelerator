@@ -98,21 +98,19 @@ export class ZodAcceleratorContent {
 	}
 
 	public toFunction() {
-		const isAsync = !!this.content.find((line) => line.includes("await"));
-
 		const functionContent = this.replacer(
 			[
-				`(${isAsync ? "async " : ""}function ($input){`,
+				"function ($input){",
 				/* js */"const ZodAcceleratorError = this.ZodAcceleratorError;",
 				...this.content,
 				/* js */"return {success: true, data: $input};",
-				"})",
+				"}",
 			]
 				.join("\n"),
 		)
 			.replace(/\$path\.?/g, ".");
 
-		const fnc: AnyFunction = shadowEval(functionContent);
+		const fnc: AnyFunction = shadowEval(`(${functionContent.includes("await") ? "async " : ""}${functionContent})`);
 
 		return fnc.bind({
 			ZodAcceleratorError: ZodAcceleratorError,

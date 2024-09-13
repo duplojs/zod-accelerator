@@ -1,7 +1,8 @@
-import * as zod from "zod";
+import { z as zod } from "zod";
 import { ZodAcceleratorContent } from "./content";
 import { ZodAcceleratorParser } from "./parser";
 import { ZodAcceleratorError } from "./error";
+import { zodSchemaIsAsync } from "./utils/zodSchemaIsAsync";
 
 declare module "zod" {
 	interface ZodType {
@@ -30,9 +31,12 @@ export abstract class ZodAccelerator {
 					zac.addContext({
 						zodSchema,
 					});
+					const isAsync = zodSchemaIsAsync(zodSchema);
+					const parseMethod = isAsync ? "safeParseAsync" : "safeParse";
+					const mayBeAwait = isAsync ? "await" : "";
 
 					zac.addContent(`
-						let $output = $this.zodSchema.accelerator.safeParse($input);
+						let $output = ${mayBeAwait} $this.zodSchema.accelerator.${parseMethod}($input);
 
 						if($output.success === false){
 							$output.error.message = $output.error.message.replace(".", \`$path.\`);
@@ -75,7 +79,9 @@ export abstract class ZodAccelerator {
 		ZodAccelerator.accelerators.push(new zodAccelerator());
 	}
 
-	public static injectZod<Z extends typeof zod>(zod: Z) {
+	public static injectZod<
+		Z extends typeof zod,
+	>(zod: Z) {
 		this.zod = zod;
 	}
 }
