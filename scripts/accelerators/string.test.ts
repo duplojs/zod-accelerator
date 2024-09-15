@@ -19,7 +19,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input is not a String.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input is not a String.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -39,7 +45,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String has length less than 2.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String has length less than 2.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -59,7 +71,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String has length more than 2.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String has length more than 2.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -79,7 +97,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String has length not equal to 2.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String has length not equal to 2.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -99,7 +123,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input string is not an Email.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input string is not an Email.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -119,7 +149,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not an url.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not an url.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -139,7 +175,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not an emoji.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not an emoji.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -159,7 +201,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not an uuid.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not an uuid.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -179,7 +227,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not an cuid.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not an cuid.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -199,7 +253,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not an cuid2.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not an cuid2.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -219,7 +279,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String not includes test.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String not includes test.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -239,7 +305,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not an ulid.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not an ulid.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -259,7 +331,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String not starts with test.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String not starts with test.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -279,7 +357,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String not ends with test.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String not ends with test.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -299,7 +383,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String not match with regex test.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String not match with regex test.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -343,7 +433,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not a datetime.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not a datetime.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -363,7 +459,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not a datetime.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not a datetime.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -383,7 +485,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not a datetime.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not a datetime.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -403,7 +511,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not a datetime.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not a datetime.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -426,7 +540,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not a datetime.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not a datetime.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -449,7 +569,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not a datetime.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not a datetime.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -473,7 +599,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not an ipv4 or ipv6.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not an ipv4 or ipv6.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -493,7 +625,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not an ipv4.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not an ipv4.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -513,7 +651,13 @@ describe("string type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input String is not an ipv6.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input String is not an ipv6.",
+					path: [],
+				},
+			]);
 		}
 	});
 

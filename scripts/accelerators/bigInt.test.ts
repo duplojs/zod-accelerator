@@ -19,7 +19,13 @@ describe("bigInt type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input is not BigInt.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input is not BigInt.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -39,7 +45,13 @@ describe("bigInt type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input BigInt is less or equal than 1.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input BigInt is less or equal than 1.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -59,7 +71,13 @@ describe("bigInt type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input BigInt is more or equal than 4.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input BigInt is more or equal than 4.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -79,7 +97,13 @@ describe("bigInt type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input BigInt is not multiple of 4.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input BigInt is not multiple of 4.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -98,8 +122,13 @@ describe("bigInt type", () => {
 		} catch (error: any) {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
-			// expect(schema.safeParse(data).success).toBe(false)
-			expect(err.message).toBe(". : Input is not BigInt.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input is not BigInt.",
+					path: [],
+				},
+			]);
 		}
 	});
 });

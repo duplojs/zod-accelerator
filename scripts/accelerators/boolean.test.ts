@@ -18,7 +18,13 @@ describe("bigInt type", () => {
 		} catch (error: any) {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
-			expect(err.message).toBe(". : Input is not boolean.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input is not boolean.",
+					path: [],
+				},
+			]);
 		}
 	});
 

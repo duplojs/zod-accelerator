@@ -19,7 +19,13 @@ describe("number type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input is not a Number.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input is not a Number.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -39,7 +45,13 @@ describe("number type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input Number is less than 1.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input Number is less than 1.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -59,7 +71,13 @@ describe("number type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input Number is more than 1.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input Number is more than 1.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -79,7 +97,13 @@ describe("number type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input Number is not multiple of 4.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input Number is not multiple of 4.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -99,7 +123,13 @@ describe("number type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input is not Int.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input is not Int.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -119,7 +149,13 @@ describe("number type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input Number is not finite.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input Number is not finite.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -139,7 +175,13 @@ describe("number type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input is not a Number.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input is not a Number.",
+					path: [],
+				},
+			]);
 		}
 	});
 });

@@ -19,7 +19,13 @@ describe("array type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".[Array 1] : Input is not a String.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ".[Array 1] : Input is not a String.",
+					path: ["[Array 1]"],
+				},
+			]);
 		}
 	});
 
@@ -39,7 +45,13 @@ describe("array type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(".[Array 1].test : Input is not a String.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ".[Array 1].test : Input is not a String.",
+					path: ["[Array 1]", "test"],
+				},
+			]);
 		}
 	});
 
@@ -59,7 +71,13 @@ describe("array type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input Array has length not equal to 2.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input Array has length not equal to 2.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -79,7 +97,13 @@ describe("array type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input Array has length less than 3.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input Array has length less than 3.",
+					path: [],
+				},
+			]);
 		}
 	});
 
@@ -99,7 +123,13 @@ describe("array type", () => {
 			const err: ZodAcceleratorError = error;
 			expect(err).instanceOf(ZodAcceleratorError);
 			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.message).toBe(". : Input Array has length more than 3.");
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ". : Input Array has length more than 3.",
+					path: [],
+				},
+			]);
 		}
 	});
 });

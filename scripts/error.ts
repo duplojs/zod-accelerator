@@ -1,8 +1,20 @@
-export class ZodAcceleratorError extends Error {
+import { ZodError, type ZodIssue } from "zod";
+
+export class ZodAcceleratorError extends ZodError {
 	public constructor(
-		path: string,
-		message: string,
+		public passedPath: string,
+		public passedMessage: string,
+		issue?: ZodIssue,
 	) {
-		super(`${path || "."} : ${message}`);
+		super([
+			{
+				code: "custom",
+				message: `${passedPath} : ${passedMessage}`,
+				path: passedPath === "."
+					? []
+					: passedPath.substring(1).split("."),
+				...issue,
+			},
+		]);
 	}
 }
