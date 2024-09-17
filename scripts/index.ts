@@ -22,6 +22,7 @@ import "./accelerators/default";
 import "./accelerators/branded";
 import "./accelerators/nan";
 import "./accelerators/optional";
+import "./accelerators/pipeline";
 import "./accelerators/catch";
 import "./accelerators/record";
 import "./accelerators/literal";
