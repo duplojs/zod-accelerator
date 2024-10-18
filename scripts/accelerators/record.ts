@@ -1,4 +1,4 @@
-import * as zod from "zod";
+import type * as zod from "zod";
 import { ZodAccelerator } from "../accelerator";
 import { ZodObjectAccelerator } from "./object";
 import type { ZodAcceleratorContent } from "../content";
@@ -9,17 +9,20 @@ export class ZodRecordAccelerator extends ZodAccelerator {
 		return ZodAccelerator.zod.ZodRecord;
 	}
 
-	public makeAcceleratorContent(zodSchema: zod.ZodRecord, zac: ZodAcceleratorContent) {
+	public makeAcceleratorContent(zodSchema: zod.ZodRecord<zod.KeySchema>, zac: ZodAcceleratorContent) {
 		const def = zodSchema._def;
 
 		const zacValueType = ZodAccelerator.findAcceleratorContent(def.valueType as zod.ZodType);
 
-		const keyType = def.keyType;
-		if (keyType instanceof zod.ZodNumber || keyType instanceof zod.ZodString) {
-			//@ts-expect-error infinity error de merde
-			keyType._def.coerce = true;
+		let keyType = def.keyType;
+		if (keyType instanceof ZodAccelerator.zod.ZodString) {
+			keyType = new ZodAccelerator.zod.ZodString({
+				...keyType._def,
+				coerce: true,
+			});
 		}
-		const zacKeyType = ZodAccelerator.findAcceleratorContent(def.keyType);
+
+		const zacKeyType = ZodAccelerator.findAcceleratorContent(keyType as zod.ZodType);
 
 		zac.addContent(
 			"let $output = {};",

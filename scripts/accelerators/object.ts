@@ -1,4 +1,4 @@
-import * as zod from "zod";
+import type * as zod from "zod";
 import { ZodAccelerator } from "../accelerator";
 import type { ZodAcceleratorContent } from "../content";
 
@@ -30,14 +30,14 @@ export class ZodObjectAccelerator extends ZodAccelerator {
 		Object.entries(shape).forEach(([key, zodSchema]) => {
 			const propsZac = ZodAccelerator.findAcceleratorContent(zodSchema as zod.ZodType);
 			if (
-				zodSchema instanceof zod.ZodUndefined
-				|| zodSchema instanceof zod.ZodVoid
-				|| zodSchema instanceof zod.ZodUnknown
-				|| zodSchema instanceof zod.ZodAny
-				|| zodSchema instanceof zod.ZodOptional
-				|| zodSchema instanceof zod.ZodDefault
+				zodSchema instanceof ZodAccelerator.zod.ZodUndefined
+				|| zodSchema instanceof ZodAccelerator.zod.ZodVoid
+				|| zodSchema instanceof ZodAccelerator.zod.ZodUnknown
+				|| zodSchema instanceof ZodAccelerator.zod.ZodAny
+				|| zodSchema instanceof ZodAccelerator.zod.ZodOptional
+				|| zodSchema instanceof ZodAccelerator.zod.ZodDefault
 				|| (
-					zodSchema instanceof zod.ZodLiteral
+					zodSchema instanceof ZodAccelerator.zod.ZodLiteral
 					&& zodSchema._def.value === undefined
 				)
 			) {

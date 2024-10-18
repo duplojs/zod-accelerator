@@ -1,3 +1,2 @@
-const { eval: badEval } = global;
-
-export const shadowEval = badEval;
+/* eslint-disable no-eval */
+export const shadowEval = eval;

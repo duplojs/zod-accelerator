@@ -33,35 +33,4 @@ describe("record type", () => {
 			]);
 		}
 	});
-
-	it("input record number string", () => {
-		const schema = zod.record(zod.number(), zod.string());
-		const accelerateSchema = ZodAccelerator.build(schema);
-		let data: any = {
-			1: "test",
-			2: "test",
-		};
-
-		expect(accelerateSchema.parse(data)).toStrictEqual(schema.parse(data));
-
-		data = {
-			test1: 1,
-		};
-
-		try {
-			accelerateSchema.parse(data);
-			throw new Error();
-		} catch (error: any) {
-			const err: ZodAcceleratorError = error;
-			expect(err).instanceOf(ZodAcceleratorError);
-			expect(schema.safeParse(data).success).toBe(false);
-			expect(err.issues).toStrictEqual([
-				{
-					code: "custom",
-					message: ".[Record Key \"test1\"] : Input is not a Number.",
-					path: ["[Record Key \"test1\"]"],
-				},
-			]);
-		}
-	});
 });
