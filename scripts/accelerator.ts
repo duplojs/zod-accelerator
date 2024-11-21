@@ -6,7 +6,7 @@ import { zodSchemaIsAsync } from "./utils/zodSchemaIsAsync";
 
 declare module "zod" {
 	interface ZodType {
-		accelerator?: ZodAcceleratorParser<this>;
+		accelerator?: ZodAcceleratorParser;
 	}
 }
 

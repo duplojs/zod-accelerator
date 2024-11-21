@@ -180,4 +180,62 @@ describe("object type", () => {
 			]);
 		}
 	});
+
+	it("input merged object", () => {
+		const schema = zod.object({
+			test1: zod.string(),
+		}).merge(zod.object({
+			test2: zod.number(),
+		})).strict();
+
+		const accelerateSchema = ZodAccelerator.build(schema);
+		let data: any = {
+			test1: "test",
+			test2: 1,
+		};
+
+		expect(accelerateSchema.parse(data)).toStrictEqual(schema.parse(data));
+
+		data = {
+			test1: "test",
+		};
+
+		try {
+			accelerateSchema.parse(data);
+			throw new Error();
+		} catch (error: any) {
+			const err: ZodAcceleratorError = error;
+			expect(err).instanceOf(ZodAcceleratorError);
+			expect(schema.safeParse(data).success).toBe(false);
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ".test2 : Input is not a Number.",
+					path: ["test2"],
+				},
+			]);
+		}
+
+		data = {
+			test1: "test",
+			test2: 1,
+			test3: 1,
+		};
+
+		try {
+			accelerateSchema.parse(data);
+			throw new Error();
+		} catch (error: any) {
+			const err: ZodAcceleratorError = error;
+			expect(err).instanceOf(ZodAcceleratorError);
+			expect(schema.safeParse(data).success).toBe(false);
+			expect(err.issues).toStrictEqual([
+				{
+					code: "custom",
+					message: ".test3 : Input Object has key to many.",
+					path: ["test3"],
+				},
+			]);
+		}
+	});
 });
