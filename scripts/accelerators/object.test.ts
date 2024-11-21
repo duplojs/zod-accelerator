@@ -186,7 +186,8 @@ describe("object type", () => {
 			test1: zod.string(),
 		}).merge(zod.object({
 			test2: zod.number(),
-		})).strict();
+		}))
+			.strict();
 
 		const accelerateSchema = ZodAccelerator.build(schema);
 		let data: any = {
