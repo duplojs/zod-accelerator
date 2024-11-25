@@ -99,9 +99,7 @@ describe("zodSchemaIsAsync", () => {
 				zod.string().superRefine((val: any) => {
 					val.tot = val;
 					expect(val.ttt).toBe(val);
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-call, new-cap
 					expect(new val()).toBe(val);
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 					expect(val()).toBe(val);
 
 					return Promise.resolve();
