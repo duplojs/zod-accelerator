@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import * as zod from "zod";
 import { ZodAccelerator } from "../accelerator";
 import type { ZodAcceleratorContent } from "../content";
