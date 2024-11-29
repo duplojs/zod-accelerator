@@ -5,8 +5,14 @@ import { ZodAcceleratorError } from "./error";
 import { zodSchemaIsAsync } from "./utils/zodSchemaIsAsync";
 
 declare module "zod" {
-	interface ZodType {
-		accelerator?: ZodAcceleratorParser<this>;
+	interface ZodType<
+		Output = any,
+		Def extends zod.ZodTypeDef = zod.ZodTypeDef,
+		Input = Output,
+	> {
+		accelerator?: ZodAcceleratorParser<
+			ZodType<Output, Def, Input>
+		>;
 	}
 }
 
