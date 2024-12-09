@@ -1,5 +1,8 @@
 // https://github.dev/colinhacks/zod
 
+// must be import at first
+import "./accelerators/type";
+
 import "./accelerators/string";
 import "./accelerators/number";
 import "./accelerators/object";
@@ -30,9 +33,6 @@ import "./accelerators/readonly";
 import "./accelerators/bigInt";
 import "./accelerators/effects";
 import "./accelerators/lazy";
-
-// must be import at last
-import "./accelerators/type";
 
 export * from "./accelerator";
 export * from "./error";
