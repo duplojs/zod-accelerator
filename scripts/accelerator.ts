@@ -17,7 +17,7 @@ declare module "zod" {
 }
 
 export abstract class ZodAccelerator {
-	protected static accelerators: ZodAccelerator[] = [];
+	public static accelerators: ZodAccelerator[] = [];
 
 	protected static zod = zod;
 
@@ -87,7 +87,7 @@ export abstract class ZodAccelerator {
 	}
 
 	public static autoInstance(zodAccelerator: new(...args: any[]) => ZodAccelerator) {
-		ZodAccelerator.accelerators.push(new zodAccelerator());
+		ZodAccelerator.accelerators.unshift(new zodAccelerator());
 	}
 
 	public static injectZod<
