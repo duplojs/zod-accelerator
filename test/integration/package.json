@@ -1,0 +1,10 @@
+{
+  "name": "test-integration",
+  "type": "module",
+  "scripts": {
+    "test:types": "tsc"
+  },
+  "dependencies": {
+    "@duplojs/zod-accelerator": "file:../.."
+  }
+}

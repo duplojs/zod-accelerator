@@ -11,8 +11,9 @@
     "test:tu": "vitest --coverage",
     "test:tu:watch": "vitest --coverage --watch",
     "test:bench": "tsx benchmark/string.bench.ts && tsx benchmark/object.bench.ts && tsx benchmark/array.bench.ts && tsx benchmark/union.bench.ts",
-    "test:types": "npm run test:types:scripts",
+    "test:types": "npm run test:types:scripts && npm run integration:test:types",
     "test:types:scripts": "tsc",
+    "integration:test:types": "npm -w test/integration run test:types",
     "test:lint": "eslint",
     "test:lint:fix": "eslint --fix",
     "prepare": "husky"
@@ -22,12 +23,15 @@
     ".": {
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs",
-      "types": "./dist/types/index.d.ts"
+      "types": "./dist/index.d.ts"
     }
   },
   "files": [
     "dist",
     "README.md"
+  ],
+  "workspaces": [
+    "test/integration"
   ],
   "peerDependencies": {
     "zod": ">=3.0.0 <4.0.0"
