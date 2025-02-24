@@ -12,18 +12,19 @@ export class ZodUnionAccelerator extends ZodAccelerator {
 		const def = zodSchema._def;
 
 		zac.addContext({
-			duploj$EMPTY: ZodUnionAccelerator.EMPTY,
+			EMPTY: ZodUnionAccelerator.EMPTY,
 		});
 
 		zac.addContent(
-			"let $output = this.duploj$EMPTY;",
+			"let $output = $this.EMPTY;",
+			"let $id_reasons = {}",
 			"$id_union :{",
 		);
 
 		def.options.forEach((value, index) => {
 			const childZac = ZodAccelerator.findAcceleratorContent(value);
 			const childZacContent = childZac.exportContent({
-				path: null,
+				path: `[Union ${index}]`,
 				input: zac.replacer("$input"),
 				output: zac.replacer("$output"),
 			});
@@ -34,7 +35,9 @@ export class ZodUnionAccelerator extends ZodAccelerator {
 				childZacContent
 					.split("\n")
 					.map(
-						(line) => line.includes("return") ? `break $id_union_child_${index};` : line,
+						(line) => line.includes("return /* cut_execution */")
+							? `break $id_union_child_${index};`
+							: line,
 					)
 					.join("\n"),
 				"break $id_union;",
@@ -52,10 +55,11 @@ export class ZodUnionAccelerator extends ZodAccelerator {
 	}
 
 	public static contentPart = {
-		checkOutput: () => ({
-			if: /* js */"$output === this.duploj$EMPTY",
-			message: "Input has no correspondence in union.",
-		}),
+		checkOutput: () => `
+			if($output === $this.EMPTY) {
+				return /* cut_execution */ {success: false, error: new ZodAcceleratorError(\`$path\`, "Input has no correspondence in union.")}
+			}
+		`,
 	};
 
 	public static EMPTY = Symbol("empty");

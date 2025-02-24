@@ -28,7 +28,7 @@ export class ZodNumberAccelerator extends ZodAccelerator {
             $input = new Number($input).valueOf();
 
             if(Number.isNaN($input)){
-                return {success: false, error: new ZodAcceleratorError(\`$path\`, "Input is not a Number.")};
+                return /* cut_execution */ {success: false, error: new ZodAcceleratorError(\`$path\`, "Input is not a Number.")};
             }
         `,
 		typeof: () => ({

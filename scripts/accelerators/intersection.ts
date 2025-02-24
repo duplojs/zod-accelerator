@@ -51,7 +51,7 @@ export class ZodIntersectionAccelerator extends ZodAccelerator {
 		mergeValues: () => `
 			let $id_resultMergeValues = this.duploj$mergeValues($id_left_output, $id_right_output, \`$path\`);
 			if(!$id_resultMergeValues.success){
-				return $id_resultMergeValues;
+				return /* cut_execution */ $id_resultMergeValues;
 			}
 			$input = $id_resultMergeValues.data;
 	   `,

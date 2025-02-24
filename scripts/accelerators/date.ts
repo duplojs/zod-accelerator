@@ -28,7 +28,7 @@ export class ZodDateAccelerator extends ZodAccelerator {
             $input = new Date($input);
 
             if(isNaN($input.getTime())){
-                return {success: false, error: new ZodAcceleratorError(\`$path\`, "Input is invalide Date.")};
+                return /* cut_execution */ {success: false, error: new ZodAcceleratorError(\`$path\`, "Input is invalide Date.")};
             }
         `,
 		typeof: () => ({

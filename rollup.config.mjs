@@ -15,7 +15,7 @@ export default defineConfig({
 	],
 	plugins: [
 		typescript({
-			tsconfig: "tsconfig.json",
+			tsconfig: "tsconfig.build.json",
 			include: /\.[jt]sx?$/,
 			exclude: /node_modules/,
 		}),

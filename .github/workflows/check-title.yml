@@ -2,8 +2,6 @@ name: check-title
 
 on: 
   pull_request:
-    branches:
-      - develop
     types:
       - opened
       - edited
@@ -17,4 +15,4 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           pass_on_octokit_error: false
-          configuration_path: ".github/workflows/develop@check-title.json"
+          configuration_path: ".github/workflows/check-title.json"

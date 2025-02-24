@@ -19,10 +19,7 @@ export class ZodTypeAccelerator extends ZodAccelerator {
 				const $output = ${mayBeAwait} $this.zodSchema.${parseMethod}($input);
 
 				if($output.success === false){
-					return {
-						success: false, 
-						error: new ZodAcceleratorError(\`$path\`, "ZodSchema Fail parse.")
-					};
+					return /* cut_execution */ {success: false, error: new ZodAcceleratorError(\`$path\`, "ZodSchema Fail parse.")};
 				}
 
 				$input = $output.data;

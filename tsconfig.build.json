@@ -1,10 +1,11 @@
 {	
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "outDir": "dist",
     "noEmit": false,
     "declaration": true,
-    "emitDeclarationOnly": true,
-    "declarationDir": "types",
+	"declarationDir": "dist",
+	"types": null,
   },
   "include": ["scripts/**/*.ts"],
   "exclude": ["scripts/**/*.test.ts"]
