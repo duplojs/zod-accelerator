@@ -63,7 +63,7 @@ export class ZodAcceleratorContent {
 
 				return `
                     if(${value.if ?? "true"}){
-                        return {success: false, error: new ZodAcceleratorError(\`$path\`, "${value.message ?? ""}")};
+                        return /* cut_execution */ {success: false, error: new ZodAcceleratorError(\`$path\`, "${value.message ?? ""}")};
                     }
                 `;
 			}),
@@ -103,7 +103,7 @@ export class ZodAcceleratorContent {
 				"function ($input){",
 				/* js */"const ZodAcceleratorError = this.ZodAcceleratorError;",
 				...this.content,
-				/* js */"return {success: true, data: $input};",
+				/* js */"return /* cut_execution */ {success: true, data: $input};",
 				"}",
 			]
 				.join("\n"),

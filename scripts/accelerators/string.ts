@@ -55,7 +55,7 @@ export class ZodStringAccelerator extends ZodAccelerator {
             try {
                 new URL($input);
             } catch (error) {
-                return {success: false, error: new ZodAcceleratorError(\`$path\`, "Input String is not an url.")};
+                return /* cut_execution */ {success: false, error: new ZodAcceleratorError(\`$path\`, "Input String is not an url.")};
             }
         `,
 		emoji: () => ({

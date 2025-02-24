@@ -92,7 +92,7 @@ export class ZodObjectAccelerator extends ZodAccelerator {
 		strict: () => `
             for(let key in $input){
                 if(!$this.shape[key]){
-                    return {success: false, error: new ZodAcceleratorError(\`$path.\${key}\`, "Input Object has key to many.")};
+                    return /* cut_execution */ {success: false, error: new ZodAcceleratorError(\`$path.\${key}\`, "Input Object has key to many.")};
                 }
             }
         `,

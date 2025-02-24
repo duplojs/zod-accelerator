@@ -9,6 +9,11 @@
 		"editor.tabSize": 2,
 		"editor.insertSpaces": true,
 	},
+
+	"[json]": {
+		"editor.tabSize": 2,
+		"editor.insertSpaces": true,
+	},
     
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "explicit"

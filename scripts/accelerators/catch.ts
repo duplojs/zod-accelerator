@@ -19,17 +19,17 @@ export class ZodCatchAccelerator extends ZodAccelerator {
 
 		zac.addContext({
 			catchValue: def.catchValue,
-			duploj$EMPTY: ZodCatchAccelerator.EMPTY,
+			EMPTY: ZodCatchAccelerator.EMPTY,
 		});
 		zac.addContext(zacInnerType.ctx);
 
 		zac.addContent(
-			"let $output = this.duploj$EMPTY;",
+			"let $output = $this.EMPTY;",
 			"$id_catch :{",
 			innerTypeZacContent
 				.split("\n")
 				.map(
-					(line) => line.includes("return") ? "break $id_catch;" : line,
+					(line) => line.includes("return /* cut_execution */") ? "break $id_catch;" : line,
 				)
 				.join("\n"),
 			"}",
@@ -42,7 +42,7 @@ export class ZodCatchAccelerator extends ZodAccelerator {
 
 	public static contentPart = {
 		checkOutput: () => /* js */`
-            if($output === this.duploj$EMPTY){
+            if($output === $this.EMPTY){
                 $output = $this.catchValue()
             }
         `,

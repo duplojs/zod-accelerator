@@ -6,7 +6,7 @@ describe("nan type", () => {
 	it("input nan", () => {
 		const schema = zod.nan();
 		const accelerateSchema = ZodAccelerator.build(schema);
-		let data = NaN;
+		let data: any = NaN;
 
 		expect(accelerateSchema.parse(data)).toBe(schema.parse(data));
 

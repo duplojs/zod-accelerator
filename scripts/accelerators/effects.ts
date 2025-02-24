@@ -54,11 +54,11 @@ export class ZodEffectAccelerator extends ZodAccelerator {
             )
 
 			if($id_issue) {
-				return $id_issue;
+				return /* cut_execution */ $id_issue;
 			}
 
 			if($input === this.duploj$Never){
-				return {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
+				return /* cut_execution */ {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
 			}
         `,
 		refinement: (isAsync: boolean) => `
@@ -78,11 +78,11 @@ export class ZodEffectAccelerator extends ZodAccelerator {
             )
 
 			if($id_issue) {
-				return $id_issue;
+				return /* cut_execution */ $id_issue;
 			}
 
 			if($input === this.duploj$Never){
-				return {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
+				return /* cut_execution */ {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
 			}
         `,
 		preprocess: (isAsync: boolean) => `
@@ -101,11 +101,11 @@ export class ZodEffectAccelerator extends ZodAccelerator {
             )
 
 			if($id_issue) {
-				return $id_issue;
+				return /* cut_execution */ $id_issue;
 			}
 
 			if($input === this.duploj$Never){
-				return {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
+				return /* cut_execution */ {success: false, error: new ZodAcceleratorError(\`$path\`, "Effect return never.")};
 			}
         `,
 	};

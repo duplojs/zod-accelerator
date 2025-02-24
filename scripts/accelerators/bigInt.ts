@@ -28,7 +28,7 @@ export class ZodBigIntAccelerator extends ZodAccelerator {
             try {
                 $input = BigInt($input).valueOf();
             } catch {
-                return {success: false, error: new ZodAcceleratorError(\`$path\`, "Input is not BigInt.")};
+                return /* cut_execution */ {success: false, error: new ZodAcceleratorError(\`$path\`, "Input is not BigInt.")};
             }
         `,
 		typeof: () => ({

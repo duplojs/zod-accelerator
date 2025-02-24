@@ -11,6 +11,7 @@ export class ZodNanAccelerator extends ZodAccelerator {
 	public makeAcceleratorContent(zodSchema: zod.ZodNaN, zac: ZodAcceleratorContent) {
 		zac.addContent(
 			ZodNanAccelerator.contentPart.typeof(),
+			"$input = NaN;",
 		);
 
 		return zac;
@@ -18,7 +19,7 @@ export class ZodNanAccelerator extends ZodAccelerator {
 
 	public static contentPart = {
 		typeof: () => ({
-			if: /* js */"!isNaN($input)",
+			if: /* js */"typeof $input !== 'number' || !isNaN($input)",
 			message: "Input is not NaN.",
 		}),
 	};
