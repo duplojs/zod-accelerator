@@ -4,6 +4,7 @@ it("export all", () => {
 	expect(Object.keys(allExport))
 		.toEqual([
 			"ZodAccelerator",
+			"ZodAcceleratorContent",
 			"ZodAcceleratorError",
 			"ZodAcceleratorParser",
 			"default",

@@ -35,6 +35,7 @@ import "./accelerators/effects";
 import "./accelerators/lazy";
 
 export * from "./accelerator";
+export * from "./content";
 export * from "./error";
 export * from "./parser";
 
