@@ -1,6 +1,7 @@
-import { A, type AnyValue, createKind, E, G, innerPipe, type Kind, P, pipe, unwrap } from "@duplojs/utils";
+import { A, type AnyValue, createKind, E, G, innerPipe, type Kind, P, pipe, unwrap, whenElse } from "@duplojs/utils";
 import { type ZodTypeUnion } from "./types";
 import { getZodError } from "./getZodError";
+import { getSymbolBuildedValue } from "./override";
 
 export namespace AccelerateValue {
 
@@ -107,31 +108,51 @@ export namespace AccelerateValue {
 			| ((zodSchema: ZodTypeUnion) => boolean),
 		theFunction: (zodSchema: GenericPredicate, params: AcceleratorParams) => Type,
 	): Accelerator {
-		return (zodSchema, params) => pipe(
+		return (zodSchema, params) => whenElse(
 			zodSchema,
-			P.when(
-				predicate,
-				innerPipe(
-					(value: GenericPredicate) => theFunction(value, params),
-					E.optional,
-				),
+			predicate,
+			innerPipe(
+				(value) => theFunction(value as GenericPredicate, params),
+				E.optional,
 			),
-			P.otherwise(E.optionalEmpty),
+			E.optionalEmpty,
 		);
 	}
 
 	function defaultAccelerator(zodSchema: ZodTypeUnion, path: string): Type {
 		return create(
 			path,
-			({ $input, $output, fromContext, stop }) => [
+			({ $input, fromContext, stop }) => [
 				`
-				const result = ${fromContext(zodSchema)}.safeParse(${$input});
+				${$input} = ${fromContext(zodSchema)}.safeParse(${$input});
 
-				if(result.success === false) {
+				if(${$input}.success === false) {
 					${stop(getZodError(zodSchema, ""))}
 				}
+				`,
+			],
+		);
+	}
 
-				${$output} = result.data;
+	function alreadyHaveAccelerator(zodSchema: ZodTypeUnion, path: string): Type {
+		function theFunction(data: unknown) {
+			const buildedContext = getSymbolBuildedValue(zodSchema);
+
+			return buildedContext?.buildedSchema(
+				data,
+				buildedContext.context,
+			);
+		}
+
+		return create(
+			path,
+			({ $input, fromContext }) => [
+				`
+				${$input} = ${fromContext(theFunction)}(${$input})
+
+				if(${fromContext(stopKind)}.has(result)) {
+					throw "need implement me"
+				}
 				`,
 			],
 		);
@@ -156,15 +177,11 @@ export namespace AccelerateValue {
 						create: (getLines) => create(path, getLines),
 						path,
 					}),
-					P.when(
+					whenElse(
 						E.isOptionalFilled,
 						exit,
-					),
-					P.when(
-						E.isOptionalEmpty,
 						next,
 					),
-					P.exhaustive,
 				),
 			),
 			E.whenIsOptionalEmpty(
@@ -217,6 +234,7 @@ export namespace AccelerateValue {
 										: `let ${childAccelerateValue.$input};`,
 									`let ${childAccelerateValue.$output};`,
 									...flatChildAccelerateValue.lines,
+									`${childAccelerateValue.$output} = ${childAccelerateValue.$input};`,
 									childAccelerateValue.$out
 										? `${childAccelerateValue.$out} = ${childAccelerateValue.$output};`
 										: "",

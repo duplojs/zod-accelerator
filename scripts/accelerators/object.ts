@@ -33,7 +33,6 @@ export const objectAccelerator = AccelerateValue.createAccelerator(
 				${$output} = {};
 				`,
 				...shape,
-				`${$output} = ${$input};`,
 			];
 		},
 	),

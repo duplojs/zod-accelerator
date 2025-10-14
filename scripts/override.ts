@@ -1,5 +1,5 @@
 import { type AnyFunction } from "@duplojs/utils";
-import { type ZodType } from "zod";
+import { type z as zod, type ZodType } from "zod";
 import { type $ZodTypeInternals } from "zod/v4/core";
 
 export const SymbolBuildedFunctionLabel = "SymbolBuildedFunction";
@@ -8,7 +8,7 @@ type SymbolBuildedFunction = typeof SymbolBuildedFunction;
 
 export function setSymbolBuildedValue(
 	zodSchema: ZodType,
-	value: AnyFunction | undefined,
+	value: Builded | undefined,
 ) {
 	zodSchema[SymbolBuildedFunction] = value;
 }
@@ -26,12 +26,27 @@ export function hasSymbolBuilded<
 	return SymbolBuildedFunction in zodSchema;
 }
 
+export function getSymbolBuildedValue<
+	GenericZodType extends ZodType,
+>(
+	zodSchema: GenericZodType,
+): Builded<zod.output<ZodType>> | undefined {
+	return zodSchema[SymbolBuildedFunction];
+}
+
+export interface Builded<
+	GenericOutput extends unknown = unknown,
+> {
+	buildedSchema(data: unknown, context: Record<string, any>): GenericOutput;
+	context: Record<string, any>;
+}
+
 declare module "zod" {
 	interface ZodType<
 		out Output = unknown,
 		out Input = unknown,
 		out Internals extends $ZodTypeInternals<Output, Input> = $ZodTypeInternals<Output, Input>,
 	> {
-		[SymbolBuildedFunction]?(): Output;
+		[SymbolBuildedFunction]?: Builded<Output>;
 	}
 }

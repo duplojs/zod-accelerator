@@ -4,19 +4,13 @@ import { AccelerateValue } from "@scripts/accelerateValue";
 
 export const stringAccelerator = AccelerateValue.createAccelerator(
 	O.discriminate("type", "string"),
-	(zodSchema, { create }) => {
-		const accelerateValue = create(
-			({ $input, $output, stop, fromContext }) => [
-				`
-				if(typeof ${$input} !== ${fromContext("string")}){
-					${stop(getZodError(zodSchema, ""))}
-				}
-
-				${$output} = ${$input};
-				`,
-			],
-		);
-
-		return accelerateValue;
-	},
+	(zodSchema, { create }) => create(
+		({ $input, stop, fromContext }) => [
+			`
+			if(typeof ${$input} !== ${fromContext("string")}){
+				${stop(getZodError(zodSchema, ""))}
+			}
+			`,
+		],
+	),
 );

@@ -1,7 +1,7 @@
 import { type ZodType } from "zod";
 import { getDuplicateZodSchema } from "./getDuplicateZodSchema";
-import { A, type AnyFunction, pipe } from "@duplojs/utils";
-import { setSymbolBuildedValue } from "./override";
+import { A, type AnyFunction, not, pipe, when } from "@duplojs/utils";
+import { type Builded, hasSymbolBuilded, setSymbolBuildedValue } from "./override";
 import { AccelerateValue } from "./accelerateValue";
 
 export function build<
@@ -13,11 +13,16 @@ export function build<
 	void pipe(
 		zodSchema,
 		getDuplicateZodSchema,
-		A.map((zodSchema) => {
-			setSymbolBuildedValue(zodSchema, undefined);
+		A.map(
+			when(
+				not(hasSymbolBuilded),
+				(zodSchema) => {
+					setSymbolBuildedValue(zodSchema, undefined);
 
-			return zodSchema;
-		}),
+					build(zodSchema, accelerator);
+				},
+			),
+		),
 	);
 
 	return pipe(
@@ -33,7 +38,7 @@ export function build<
 			],
 		),
 		AccelerateValue.flat,
-		({ lines, context }) => ({
+		({ lines, context }): Builded<GenericInnerType> => ({
 			buildedSchema: eval(`
 			($input, $context) => {
 
