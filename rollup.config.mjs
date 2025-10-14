@@ -1,23 +1,27 @@
 import typescript from '@rollup/plugin-typescript';
+import del from 'rollup-plugin-delete';
 import { defineConfig } from "rollup";
 
 export default defineConfig({
 	input: "scripts/index.ts",
 	output: [
 		{
-			file: "dist/index.cjs",
-			format: "cjs",
+			dir: "dist",
+			format: "esm",
+			preserveModules: true,
+      		preserveModulesRoot: "scripts",
+			entryFileNames: "[name].mjs"
 		},
 		{
-			file: "dist/index.mjs",
-			format: "esm",
+			dir: "dist",
+			format: "cjs",
+			preserveModules: true,
+      		preserveModulesRoot: "scripts",
+			entryFileNames: "[name].cjs"
 		},
 	],
 	plugins: [
-		typescript({
-			tsconfig: "tsconfig.build.json",
-			include: /\.[jt]sx?$/,
-			exclude: /node_modules/,
-		}),
+		del({ targets: "dist" }),
+		typescript({ tsconfig: "tsconfig.build.json" }),
 	],
 });

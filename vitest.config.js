@@ -1,4 +1,4 @@
-import {defineConfig} from "vitest/config";
+import { defineConfig } from "vitest/config";
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
@@ -6,25 +6,25 @@ export default defineConfig({
 		watch: false,
 		globals: true,
 		include: [
-			"scripts/**/*.test.ts", 
-			"test/integration/**/*.test.ts", 
+			"tests/**/*.test.ts",
 		],
 		coverage: {
 			provider: "istanbul",
-			reporter: [
-				"text", "json", "html", "json-summary"
-			],
+			reporter: ["text", "json", "html", "json-summary"],
 			reportsDirectory: "coverage",
-			include: [
-				"scripts/accelerators/**/**.ts", 
-				"scripts/utils/**/**.ts"
-			],
+			include: ["scripts"],
 			exclude: [
 				"**/*.test.ts", 
 				"bin", 
 				"dist",
 			],
-		}
+			thresholds: {
+				lines: 100,
+				branches: 100,
+				functions: 100,
+				statements: 100
+			}
+		},
 	},
 	plugins: [tsconfigPaths()],
 });

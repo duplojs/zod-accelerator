@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@scripts/*": ["scripts/*"],
+      "@scripts": ["scripts/index.ts"],
+      "@test/*": ["test/*"],
+    },
+    "types": ["vitest/globals", "node"],
+  },
+  "include": ["tests/**/*.ts", "scripts/**/*.ts", "integration/**/*.ts"],
+}

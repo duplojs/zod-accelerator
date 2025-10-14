@@ -1,45 +1,17 @@
-// https://github.dev/colinhacks/zod
+import z from "zod";
+import { build } from "./build";
+import { stringAccelerator } from "./accelerators/string";
+import "@scripts";
+import { objectAccelerator } from "./accelerators/object";
 
-// must be import at first
-import "./accelerators/type";
+const testSchema = z.object({ prop: z.string() });
 
-import "./accelerators/string";
-import "./accelerators/number";
-import "./accelerators/object";
-import "./accelerators/array";
-import "./accelerators/enum";
-import "./accelerators/boolean";
-import "./accelerators/nullable";
-import "./accelerators/date";
-import "./accelerators/symbol";
-import "./accelerators/undefined";
-import "./accelerators/null";
-import "./accelerators/any";
-import "./accelerators/unknown";
-import "./accelerators/never";
-import "./accelerators/void";
-import "./accelerators/union";
-import "./accelerators/intersection";
-import "./accelerators/tuple";
-import "./accelerators/default";
-import "./accelerators/branded";
-import "./accelerators/nan";
-import "./accelerators/optional";
-import "./accelerators/pipeline";
-import "./accelerators/catch";
-import "./accelerators/record";
-import "./accelerators/literal";
-import "./accelerators/readonly";
-import "./accelerators/bigInt";
-import "./accelerators/effects";
-import "./accelerators/lazy";
+const { buildedSchema, context } = build(testSchema, [stringAccelerator, objectAccelerator]);
 
-export * from "./accelerator";
-export * from "./content";
-export * from "./error";
-export * from "./parser";
+console.log(
+	buildedSchema.toString(),
+	buildedSchema({ prop: "test" }, context),
+	buildedSchema({}, context),
+	buildedSchema("", context),
+);
 
-export * from "./utils/zodSchemaIsAsync";
-export * from "./utils/types";
-
-export { ZodAccelerator as default } from "./accelerator";

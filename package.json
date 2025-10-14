@@ -6,19 +6,16 @@
   "type": "module",
   "repository": "https://github.com/duplojs/zod-accelerator",
   "scripts": {
-    "build:scripts": "rollup --config",
-    "build": "npm run build:scripts",
+    "build": "rollup --config && tsc-alias -p tsconfig.build.json",
     "test:tu": "vitest --coverage",
     "test:tu:watch": "vitest --coverage --watch",
-    "test:bench": "tsx benchmark/string.bench.ts && tsx benchmark/object.bench.ts && tsx benchmark/array.bench.ts && tsx benchmark/union.bench.ts",
-    "test:types": "npm run test:types:scripts && npm run integration:test:types",
-    "test:types:scripts": "tsc",
-    "integration:test:types": "npm -w test/integration run test:types",
+    "test:tu:update": "vitest --coverage --update",
+    "test:types": "tsc -p tsconfig.test.json",
     "test:lint": "eslint",
     "test:lint:fix": "eslint --fix",
     "prepare": "husky"
   },
-  "types": "./types/index.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
@@ -30,32 +27,34 @@
     "dist",
     "README.md"
   ],
-  "workspaces": [
-    "test/integration"
-  ],
-  "peerDependencies": {
-    "zod": ">=3.0.0 <4.0.0"
+  "dependencies": {
+    "@duplojs/utils": ">= 1.0.6 <= 2.0.0",
+    "zod": ">= 4.1.12 <= 5.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "19.7.1",
-    "@commitlint/config-conventional": "19.2.2",
-    "@duplojs/eslint": "0.4.0",
-    "@rollup/plugin-typescript": "12.1.2",
-    "@sinclair/typebox": "^0.33.9",
-    "@types/node": "22.1.0",
-    "@vinejs/vine": "^2.1.0",
-    "@vitest/coverage-istanbul": "3.0.5",
-    "eslint": "9.20.0",
+    "@commitlint/cli": "19.8.1",
+    "@commitlint/config-conventional": "19.8.1",
+    "@duplojs/eslint": "0.5.0",
+    "@rollup/plugin-typescript": "12.1.4",
+    "@types/node": "24.3.0",
+    "@vitest/coverage-istanbul": "3.2.4",
+    "eslint": "9.34.0",
     "husky": "9.1.7",
-    "joi": "^17.13.3",
-    "myzod": "^1.11.0",
-    "rollup": "4.34.6",
-    "rollup-plugin-esbuild": "6.2.0",
+    "rollup": "4.50.0",
+    "rollup-plugin-delete": "3.0.1",
+    "rollup-plugin-esbuild": "6.2.1",
+    "tsc-alias": "1.8.16",
     "tslib": "2.8.1",
-    "tsx": "4.19.0",
-    "typescript": "5.7.3",
+    "tsx": "4.20.5",
+    "typescript": "5.9.2",
     "vite-tsconfig-paths": "5.1.4",
-    "vitest": "3.0.5"
+    "vitest": "3.2.4"
+  },
+  "workspaces": [
+    "integration"
+  ],
+  "engines": {
+    "node": ">=22.15.1"
   },
   "keywords": [
     "typescript",

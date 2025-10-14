@@ -1,0 +1,37 @@
+{
+	"test-tu": {
+		"prefix": "tu",
+		"scope": "typescript",
+		"body": [
+			"describe(\"$1\", () => {",
+			"\tit(\"$2\", () => {",
+			"\t\t$3",
+			"\t});",
+			"});"
+		],
+		"description": "template tu",
+	},
+	"test-tu-it": {
+		"prefix": "tuit",
+		"scope": "typescript",
+		"body": [
+			"it(\"$1\", () => {",
+			"\t$2",
+			"});",
+		],
+		"description": "template tu",
+	},
+
+	"expect-type": {
+		"prefix": "tuet",
+		"scope": "typescript",
+		"body": [
+			"type Check = ExpectType<",
+			"\ttypeof $1,",
+			"\t$2,",
+			"\t\"strict\"",
+			">;",
+		],
+		"description": "template tu",
+	},
+}

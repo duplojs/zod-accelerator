@@ -1,107 +1,40 @@
-import type * as zod from "zod";
-import { ZodAccelerator } from "../accelerator";
-import type { ZodAcceleratorContent } from "../content";
+import { A, O, pipe } from "@duplojs/utils";
+import { getZodError } from "@scripts/getZodError";
+import { AccelerateValue } from "@scripts/accelerateValue";
+import { type ZodType } from "zod";
 
-@ZodAccelerator.autoInstance
-export class ZodObjectAccelerator extends ZodAccelerator {
-	public get support() {
-		return ZodAccelerator.zod.ZodObject;
-	}
-
-	public makeAcceleratorContent(zodSchema: zod.ZodObject<Record<keyof any, any>>, zac: ZodAcceleratorContent) {
-		const def = zodSchema._def;
-		const shape = def.shape();
-
-		zac.addContext({
-			shape: Object.keys(shape).reduce<Record<string, true>>(
-				(pv, cv) => {
-					pv[cv] = true;
-					return pv;
-				},
-				{},
-			),
-		});
-
-		zac.addContent(
-			"let $output = {};",
-			ZodObjectAccelerator.contentPart.typeof(),
-		);
-
-		Object.entries(shape).forEach(([key, zodSchema]) => {
-			const propsZac = ZodAccelerator.findAcceleratorContent(zodSchema as zod.ZodType);
-			if (
-				zodSchema instanceof ZodAccelerator.zod.ZodUndefined
-				|| zodSchema instanceof ZodAccelerator.zod.ZodVoid
-				|| zodSchema instanceof ZodAccelerator.zod.ZodUnknown
-				|| zodSchema instanceof ZodAccelerator.zod.ZodAny
-				|| zodSchema instanceof ZodAccelerator.zod.ZodOptional
-				|| zodSchema instanceof ZodAccelerator.zod.ZodDefault
-				|| (
-					zodSchema instanceof ZodAccelerator.zod.ZodLiteral
-					&& zodSchema._def.value === undefined
-				)
-			) {
-				zac.addContent(
-					[
-						propsZac,
+export const objectAccelerator = AccelerateValue.createAccelerator(
+	O.discriminate("type", "object"),
+	(zodSchema, { create, find }) => create(
+		({ $input, $output, stop, fromContext }) => {
+			const shape = pipe(
+				zodSchema.shape as { [key: string]: ZodType },
+				O.entries,
+				A.map(
+					([key, value]) => AccelerateValue.defineEntrypoint(
+						find(
+							value,
+							key,
+						),
 						{
-							path: key,
-							input: `$input["${key}"]`,
-							output: "//",
+							$in: `${$input}[${fromContext(key)}]`,
+							$out: `${$output}[${fromContext(key)}]`,
 						},
-					],
-					/* js */`
-						if(${propsZac.replacer("$input")} != undefined){
-							$output["${key}"] = ${propsZac.replacer("$input")}
-						}
-					`,
-				);
-			} else {
-				zac.addContent(
-					[
-						propsZac,
-						{
-							path: key,
-							input: `$input["${key}"]`,
-							output: `$output["${key}"]`,
-						},
-					],
-				);
-			}
-		});
+					),
+				),
+			);
 
-		zac.addContent(
-			def.unknownKeys !== "strict" || ZodObjectAccelerator.contentPart.strict(),
-			def.unknownKeys !== "passthrough" || ZodObjectAccelerator.contentPart.passthrough(),
-			"$input = $output",
-		);
+			return [
+				`
+				if(typeof ${$input} !== ${fromContext("object")}){
+					${stop(getZodError(zodSchema, ""))}
+				}
 
-		return zac;
-	}
-
-	public static contentPart = {
-		typeof: () => ({
-			if: /* js */`
-                typeof $input !== "object" ||
-                $input === null ||
-                $input instanceof Array ||
-                $input instanceof Promise
-            `,
-			message: "Input is not Object.",
-		}),
-		strict: () => `
-            for(let key in $input){
-                if(!$this.shape[key]){
-                    return /* cut_execution */ {success: false, error: new ZodAcceleratorError(\`$path.\${key}\`, "Input Object has key to many.")};
-                }
-            }
-        `,
-		passthrough: () => `
-            for(let key in $input){
-                if(!$this.shape[key]){
-                    $output[key] = $input[key];
-                }
-            }
-        `,
-	};
-}
+				${$output} = {};
+				`,
+				...shape,
+				`${$output} = ${$input};`,
+			];
+		},
+	),
+);

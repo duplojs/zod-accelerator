@@ -1,12 +1,10 @@
 {	
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.app.json",
   "compilerOptions": {
-    "outDir": "dist",
+	"outDir": "dist",
     "noEmit": false,
     "declaration": true,
 	"declarationDir": "dist",
 	"types": null,
   },
-  "include": ["scripts/**/*.ts"],
-  "exclude": ["scripts/**/*.test.ts"]
 }
