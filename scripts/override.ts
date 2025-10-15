@@ -1,6 +1,4 @@
-import { type AnyFunction } from "@duplojs/utils";
-import { type z as zod, type ZodType } from "zod";
-import { type $ZodTypeInternals } from "zod/v4/core";
+import { type z as zod, type core, type ZodType } from "zod";
 
 export const SymbolBuildedFunctionLabel = "SymbolBuildedFunction";
 const SymbolBuildedFunction = Symbol.for(SymbolBuildedFunctionLabel);
@@ -45,7 +43,7 @@ declare module "zod" {
 	interface ZodType<
 		out Output = unknown,
 		out Input = unknown,
-		out Internals extends $ZodTypeInternals<Output, Input> = $ZodTypeInternals<Output, Input>,
+		out Internals extends core.$ZodTypeInternals<Output, Input> = core.$ZodTypeInternals<Output, Input>,
 	> {
 		[SymbolBuildedFunction]?: Builded<Output>;
 	}

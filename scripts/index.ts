@@ -5,7 +5,7 @@ import "@scripts";
 import { objectMaker } from "./makers/object";
 
 const testSchema = z.object({
-	prop: z.string(),
+	prop: z.url(),
 });
 
 const { buildedSchema, context } = build(testSchema, [stringMaker, objectMaker]);

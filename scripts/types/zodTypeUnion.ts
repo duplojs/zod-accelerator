@@ -9,8 +9,11 @@ import {
 	type ZodDate,
 	type ZodDefault,
 	type ZodEnum,
+	type ZodBase64,
+	type ZodBase64URL,
 	type ZodFile,
 	type ZodFunction,
+	type ZodGUID,
 	type ZodIntersection,
 	type ZodLazy,
 	type ZodLiteral,
@@ -30,6 +33,7 @@ import {
 	type ZodRecord,
 	type ZodSet,
 	type ZodString,
+	type ZodStringFormat,
 	type ZodSuccess,
 	type ZodSymbol,
 	type ZodTemplateLiteral,
@@ -39,6 +43,23 @@ import {
 	type ZodUnion,
 	type ZodUnknown,
 	type ZodVoid,
+	type ZodCIDRv4,
+	type ZodCIDRv6,
+	type ZodCUID,
+	type ZodCUID2,
+	type ZodCustomStringFormat,
+	type ZodEmoji,
+	type ZodE164,
+	type ZodEmail,
+	type ZodIPv4,
+	type ZodIPv6,
+	type ZodJWT,
+	type ZodKSUID,
+	type ZodNanoID,
+	type ZodULID,
+	type ZodURL,
+	type ZodUUID,
+	type ZodXID,
 } from "zod";
 
 export type ZodTypeUnion =
@@ -72,6 +93,7 @@ export type ZodTypeUnion =
 	| ZodRecord
 	| ZodSet
 	| ZodString
+	| ZodStringFormat
 	| ZodSuccess
 	| ZodSymbol
 	| ZodTemplateLiteral
@@ -81,4 +103,24 @@ export type ZodTypeUnion =
 	| ZodUnion
 	| ZodUnknown
 	| ZodVoid
-	| ZodType;
+	| ZodType
+	| ZodCustomStringFormat
+	| ZodBase64
+	| ZodBase64URL
+	| ZodCIDRv4
+	| ZodCIDRv6
+	| ZodCUID
+	| ZodCUID2
+	| ZodEmoji
+	| ZodE164
+	| ZodEmail
+	| ZodGUID
+	| ZodIPv4
+	| ZodIPv6
+	| ZodJWT
+	| ZodKSUID
+	| ZodNanoID
+	| ZodULID
+	| ZodURL
+	| ZodUUID
+	| ZodXID;
