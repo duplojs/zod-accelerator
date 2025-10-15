@@ -75,13 +75,20 @@ export namespace AccelerateValue {
 
 	interface DefineEntryPointParams {
 		$in: string;
-		$out: string;
+		$out?: string;
 	}
 
 	export function defineEntrypoint(type: Type, params: DefineEntryPointParams): Type {
 		return {
 			...type,
 			...params,
+		};
+	}
+
+	export function addLine(type: Type, lines: [Type["lines"][number], ...Type["lines"]]): Type {
+		return {
+			...type,
+			lines: A.push(type.lines, ...lines),
 		};
 	}
 
@@ -227,9 +234,7 @@ export namespace AccelerateValue {
 									childAccelerateValue.$in
 										? `let ${childAccelerateValue.$input} = ${childAccelerateValue.$in};`
 										: `let ${childAccelerateValue.$input};`,
-									`let ${childAccelerateValue.$output};`,
 									...flatChildAccelerateValue.lines,
-									`${childAccelerateValue.$output} = ${childAccelerateValue.$input};`,
 									childAccelerateValue.$out
 										? `${childAccelerateValue.$out} = ${childAccelerateValue.$output};`
 										: "",

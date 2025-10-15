@@ -1,6 +1,6 @@
 import { type ZodType } from "zod";
 import { getDuplicateZodSchema } from "./getDuplicateZodSchema";
-import { A, type AnyFunction, not, pipe, when } from "@duplojs/utils";
+import { A, not, pipe, when } from "@duplojs/utils";
 import { type Builded, hasSymbolBuilded, setSymbolBuildedValue } from "./override";
 import { AccelerateValue } from "./accelerateValue";
 
@@ -19,7 +19,7 @@ export function build<
 				(zodSchema) => {
 					setSymbolBuildedValue(zodSchema, undefined);
 
-					build(zodSchema, accelerator);
+					setSymbolBuildedValue(zodSchema, build(zodSchema, accelerator));
 				},
 			),
 		),
@@ -30,11 +30,12 @@ export function build<
 		(type) => AccelerateValue.create(
 			{ type: "return" },
 			() => [
-				"let $output;",
-				AccelerateValue.defineEntrypoint(type, {
-					$in: "$input",
-					$out: "$output",
-				}),
+				AccelerateValue.addLine(
+					AccelerateValue.defineEntrypoint(type, {
+						$in: "$input",
+					}),
+					[`return ${type.$output}`],
+				),
 			],
 		),
 		AccelerateValue.flat,
@@ -43,10 +44,8 @@ export function build<
 			($input, $context) => {
 
 				${lines.join("\n")}
-
-				return $output
 			}
-			`) as AnyFunction,
+			`),
 			context: context,
 		}),
 	);

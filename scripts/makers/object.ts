@@ -10,14 +10,26 @@ export const objectMaker = AccelerateValue.createMaker(
 				zodSchema.shape as { [key: string]: ZodType },
 				O.entries,
 				A.map(
-					([key, value]) => AccelerateValue.defineEntrypoint(
+					([key, value]) => pipe(
 						make(
 							value,
 						),
-						{
-							$in: `${$input}[${fromContext(key)}]`,
-							$out: `${$output}[${fromContext(key)}]`,
-						},
+						(type) => AccelerateValue.defineEntrypoint(
+							type,
+							{
+								$in: `${$input}[${fromContext(key)}]`,
+							},
+						),
+						(type) => AccelerateValue.addLine(
+							type,
+							[
+								`
+								if(${type.$output} !== undefined){
+									${$output}[${fromContext(key)}] = ${type.$output};
+								}
+								`,
+							],
+						),
 					),
 				),
 			);
@@ -28,7 +40,7 @@ export const objectMaker = AccelerateValue.createMaker(
 					${$stop}
 				}
 
-				${$output} = {};
+				let ${$output} = {};
 				`,
 				...shape,
 			];

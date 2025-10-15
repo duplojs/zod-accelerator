@@ -6,9 +6,6 @@ import { objectMaker } from "./makers/object";
 
 const testSchema = z.object({
 	prop: z.string(),
-	get tt() {
-		return testSchema;
-	},
 });
 
 const { buildedSchema, context } = build(testSchema, [stringMaker, objectMaker]);
