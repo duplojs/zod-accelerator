@@ -1,7 +1,7 @@
 import { A, type AnyValue, createKind, E, G, innerPipe, type Kind, P, pipe, unwrap, whenElse } from "@duplojs/utils";
 import { type ZodTypeUnion } from "./types";
-import { getZodError } from "./getZodError";
-import { getSymbolBuildedValue } from "./override";
+import { getSymbolBuildedValue, hasSymbolBuilded } from "./override";
+import { type Predicate } from "./types/predicate";
 
 export namespace AccelerateValue {
 
@@ -9,35 +9,37 @@ export namespace AccelerateValue {
 	export type TypeKind = Kind<typeof typeKind.definition>;
 
 	export interface Type extends TypeKind {
-		id: string;
-		lines: (string | Type)[];
-		contextMap: Map<AnyValue | Stop, string>;
-		path?: string;
-		$input: string;
-		$output: string;
-		$in?: string;
-		$out?: string;
+		readonly id: string;
+		readonly lines: (string | Type)[];
+		readonly contextMap: Map<AnyValue | SymbolStop, string>;
+		readonly path?: string;
+		readonly $input: string;
+		readonly $output: string;
+		readonly $in?: string;
+		readonly $out?: string;
 	}
+
+	type StopContext = | { type: "return" }
+		| {
+			type: "break";
+			id: string;
+		};
 
 	interface GetLineParameter {
 		readonly $input: string;
 		readonly $output: string;
-		stop(errorMessage: string): string;
+		readonly $stop: string;
 		fromContext(input: AnyValue, prefix?: string): string;
 	}
 
-	export const stopKind = createKind("accelerate-stop");
-	export type StopKind = Kind<typeof stopKind.definition>;
-
-	interface Stop extends StopKind {
-		path: string;
-		message: string;
-	}
+	export const SymbolStopLabel = "SymbolStop";
+	export const SymbolStop = Symbol.for(SymbolStopLabel);
+	export type SymbolStop = typeof SymbolStop;
 
 	export const create = (() => {
 		let followingId = 0;
 
-		return (path: string, getLines: (params: GetLineParameter) => Type["lines"]): Type => {
+		return (stopContext: StopContext, getLines: (params: GetLineParameter) => Type["lines"]): Type => {
 			const id = String(++followingId);
 
 			let followingContextId = 0;
@@ -48,18 +50,9 @@ export namespace AccelerateValue {
 				return `$context.${key}`;
 			}
 
-			function stop(message: string) {
-				const contextStringRef = fromContext(
-					stopKind.addTo({
-						path,
-						message,
-					}),
-					"stopValue",
-				);
-
-				return `/** stop **/ return ${contextStringRef};`;
-			}
-
+			const $stop = stopContext.type === "return"
+				? `/** stop-return **/ return ${fromContext(SymbolStop, "stopValue")};`
+				: `/** stop-break **/ break label_${stopContext.id};`;
 			const $input = `$input_${id}`;
 			const $output = `$output_${id}`;
 
@@ -67,13 +60,12 @@ export namespace AccelerateValue {
 				$input,
 				$output,
 				fromContext,
-				stop,
+				$stop,
 			});
 
 			return typeKind.addTo({
 				id,
 				lines,
-				path,
 				contextMap,
 				$input,
 				$output,
@@ -94,20 +86,19 @@ export namespace AccelerateValue {
 	}
 
 	export interface AcceleratorParams {
-		find(zodSchema: ZodTypeUnion, path?: string): Type;
+		make(zodSchema: ZodTypeUnion, stopContext?: StopContext): Type;
 		create(getLines: Parameters<typeof create>[1]): Type;
-		path: string;
 	}
 
-	export type Accelerator = (zodSchema: ZodTypeUnion, params: AcceleratorParams) => E.Optional<Type>;
+	export type Maker = (zodSchema: ZodTypeUnion, params: AcceleratorParams) => E.Optional<Type>;
 
-	export function createAccelerator<
+	export function createMaker<
 		GenericPredicate extends ZodTypeUnion = ZodTypeUnion,
 	>(
 		predicate: | ((zodSchema: ZodTypeUnion) => zodSchema is GenericPredicate)
 			| ((zodSchema: ZodTypeUnion) => boolean),
 		theFunction: (zodSchema: GenericPredicate, params: AcceleratorParams) => Type,
-	): Accelerator {
+	): Maker {
 		return (zodSchema, params) => whenElse(
 			zodSchema,
 			predicate,
@@ -119,23 +110,26 @@ export namespace AccelerateValue {
 		);
 	}
 
-	function defaultAccelerator(zodSchema: ZodTypeUnion, path: string): Type {
+	function defaultType(zodSchema: ZodTypeUnion, stopContext: StopContext): Type {
 		return create(
-			path,
-			({ $input, fromContext, stop }) => [
+			stopContext,
+			({ $input, fromContext, $stop }) => [
 				`
 				${$input} = ${fromContext(zodSchema)}.safeParse(${$input});
 
 				if(${$input}.success === false) {
-					${stop(getZodError(zodSchema, ""))}
+					${$stop}
 				}
 				`,
 			],
 		);
 	}
 
-	function alreadyHaveAccelerator(zodSchema: ZodTypeUnion, path: string): Type {
-		function theFunction(data: unknown) {
+	function alreadyHaveBuild(
+		zodSchema: Predicate<typeof hasSymbolBuilded>,
+		stopContext: StopContext,
+	): Type {
+		function launchBuildedSchema(data: unknown) {
 			const buildedContext = getSymbolBuildedValue(zodSchema);
 
 			return buildedContext?.buildedSchema(
@@ -145,47 +139,48 @@ export namespace AccelerateValue {
 		}
 
 		return create(
-			path,
-			({ $input, fromContext }) => [
+			stopContext,
+			({ $input, fromContext, $stop }) => [
 				`
-				${$input} = ${fromContext(theFunction)}(${$input})
+				${$input} = ${fromContext(launchBuildedSchema)}(${$input})
 
-				if(${fromContext(stopKind)}.has(result)) {
-					throw "need implement me"
+				if(${$input} === ${fromContext(SymbolStop)}) {
+					${$stop}
 				}
 				`,
 			],
 		);
 	}
 
-	export function find(
+	export function make(
 		zodSchema: ZodTypeUnion,
-		accelerators: Accelerator[],
-		path: string,
+		accelerators: Maker[],
+		stopContext: StopContext,
 	): Type {
+		if (hasSymbolBuilded(zodSchema)) {
+			return alreadyHaveBuild(zodSchema, stopContext);
+		}
+
 		return pipe(
 			accelerators,
 			A.reduce(
 				A.reduceFrom<E.Optional<Type>>(E.optionalEmpty()),
-				({ element: accelerator, exit, next }) => pipe(
+				({ element: accelerator, exit, next }) => whenElse(
 					accelerator(zodSchema, {
-						find: (subZodSchema, subPath) => find(
+						make: (subZodSchema, subStopContext) => make(
 							subZodSchema,
 							accelerators,
-							subPath ? `${path}.${subPath}` : path,
+							subStopContext ?? stopContext,
 						),
-						create: (getLines) => create(path, getLines),
-						path,
+						create: (getLines) => create(stopContext, getLines),
 					}),
-					whenElse(
-						E.isOptionalFilled,
-						exit,
-						next,
-					),
+					E.isOptionalFilled,
+					exit,
+					next,
 				),
 			),
 			E.whenIsOptionalEmpty(
-				() => defaultAccelerator(zodSchema, path),
+				() => defaultType(zodSchema, stopContext),
 			),
 			E.whenIsOptionalFilled(
 				unwrap,
@@ -198,7 +193,7 @@ export namespace AccelerateValue {
 
 	export interface FlatType extends FlatTypeKind {
 		lines: string[];
-		context: Record<string, AnyValue | Stop>;
+		context: Record<string, AnyValue | SymbolStop>;
 	}
 
 	export function flat(accelerateValue: Type): FlatType {

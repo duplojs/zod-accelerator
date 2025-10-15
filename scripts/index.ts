@@ -1,17 +1,23 @@
 import z from "zod";
 import { build } from "./build";
-import { stringAccelerator } from "./accelerators/string";
+import { stringMaker } from "./makers/string";
 import "@scripts";
-import { objectAccelerator } from "./accelerators/object";
+import { objectMaker } from "./makers/object";
 
-const testSchema = z.object({ prop: z.string() });
+const testSchema = z.object({
+	prop: z.string(),
+	get tt() {
+		return testSchema;
+	},
+});
 
-const { buildedSchema, context } = build(testSchema, [stringAccelerator, objectAccelerator]);
+const { buildedSchema, context } = build(testSchema, [stringMaker, objectMaker]);
 
 console.log(
 	buildedSchema.toString(),
-	buildedSchema({ prop: "test" }, context),
-	buildedSchema({}, context),
-	buildedSchema("", context),
+	context,
+	// buildedSchema({ prop: "test" }, context),
+	// buildedSchema({}, context),
+	// buildedSchema("", context),
 );
 

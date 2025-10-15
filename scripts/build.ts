@@ -8,7 +8,7 @@ export function build<
 	GenericInnerType extends unknown,
 >(
 	zodSchema: ZodType<GenericInnerType>,
-	accelerator: AccelerateValue.Accelerator[],
+	accelerator: AccelerateValue.Maker[],
 ) {
 	void pipe(
 		zodSchema,
@@ -26,9 +26,9 @@ export function build<
 	);
 
 	return pipe(
-		AccelerateValue.find(zodSchema, accelerator, ""),
+		AccelerateValue.make(zodSchema, accelerator, { type: "return" }),
 		(type) => AccelerateValue.create(
-			"",
+			{ type: "return" },
 			() => [
 				"let $output;",
 				AccelerateValue.defineEntrypoint(type, {

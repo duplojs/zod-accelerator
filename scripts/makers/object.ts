@@ -1,20 +1,18 @@
 import { A, O, pipe } from "@duplojs/utils";
-import { getZodError } from "@scripts/getZodError";
 import { AccelerateValue } from "@scripts/accelerateValue";
 import { type ZodType } from "zod";
 
-export const objectAccelerator = AccelerateValue.createAccelerator(
+export const objectMaker = AccelerateValue.createMaker(
 	O.discriminate("type", "object"),
-	(zodSchema, { create, find }) => create(
-		({ $input, $output, stop, fromContext }) => {
+	(zodSchema, { create, make }) => create(
+		({ $input, $output, $stop, fromContext }) => {
 			const shape = pipe(
 				zodSchema.shape as { [key: string]: ZodType },
 				O.entries,
 				A.map(
 					([key, value]) => AccelerateValue.defineEntrypoint(
-						find(
+						make(
 							value,
-							key,
 						),
 						{
 							$in: `${$input}[${fromContext(key)}]`,
@@ -27,7 +25,7 @@ export const objectAccelerator = AccelerateValue.createAccelerator(
 			return [
 				`
 				if(typeof ${$input} !== ${fromContext("object")}){
-					${stop(getZodError(zodSchema, ""))}
+					${$stop}
 				}
 
 				${$output} = {};
