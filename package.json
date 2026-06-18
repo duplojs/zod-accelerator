@@ -18,7 +18,7 @@
     "test:lint:fix": "eslint --fix",
     "prepare": "husky"
   },
-  "types": "./types/index.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
